@@ -1,0 +1,11 @@
+
+ext {
+
+    free = [
+            featureA       : 'false',
+    ]
+    paid = [
+            featureA       : 'true',
+    ]
+
+}

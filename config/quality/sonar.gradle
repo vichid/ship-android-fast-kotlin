@@ -1,0 +1,45 @@
+apply plugin: "org.sonarqube"
+
+def ignoredModules = [
+        '',
+]
+
+def sonarVars = [
+        app: [
+                execution       : 'build/jacoco/testFreeDebugUnitTest.exec'
+        ],
+        domain: [
+                execution       : 'build/jacoco/test.exec'
+        ],
+        data: [
+                execution       : 'build/jacoco/testDebugUnitTest.exec'
+        ],
+        commons: [
+                execution       : 'build/jacoco/testDebugUnitTest.exec'
+        ]
+]
+
+sonarqube {
+  properties {
+    def globalConfiguration = rootProject.ext
+
+    property "sonar.projectKey", globalConfiguration.getAt("androidApplicationId")
+    property "sonar.projectName", globalConfiguration.getAt("androidApplicationId")
+    property "sonar.projectVersion", globalConfiguration.getAt("androidVersionName")
+    property "sonar.language", "java"
+    property "sonar.sourceEncoding", "UTF-8"
+  }
+}
+
+subprojects { prj ->
+  if (!ignoredModules.contains(prj.name)) {
+
+    sonarqube {
+      properties {
+        property "sonar.sources", "src/main/java"
+        property "sonar.java.binaries", "build"
+        property "sonar.jacoco.reportPath", sonarVars.(prj.name).execution
+      }
+    }
+  }
+}

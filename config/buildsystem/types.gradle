@@ -1,0 +1,15 @@
+ext {
+
+    debug = [
+            apiUrl: '"https://api.github.com"',
+    ]
+
+    stage = [
+            apiUrl: '"https://api.github.com"',
+    ]
+
+    prod = [
+            apiUrl: '"https://api.github.com"',
+    ]
+
+}

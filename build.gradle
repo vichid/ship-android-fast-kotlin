@@ -1,0 +1,66 @@
+import java.util.regex.Pattern
+
+apply from: 'config/buildsystem/ci.gradle'
+apply from: 'config/buildsystem/dependencies.gradle'
+apply from: 'config/buildsystem/flavours.gradle'
+apply from: 'config/buildsystem/types.gradle'
+
+apply from: 'config/quality/checkstyle/checkstyle.gradle'
+
+apply plugin: 'kotlin'
+
+
+buildscript {
+  ext.kotlin_version = '1.0.3'
+  repositories {
+    jcenter()
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'com.android.tools.build:gradle:2.2.0-alpha7'
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
+    classpath "io.realm:realm-gradle-plugin:1.0.0"
+  }
+}
+
+allprojects {
+  ext {
+    androidApplicationId = "com.example.app"
+    androidVersionCode =
+        versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
+    androidVersionName = "${versionMajor}.${versionMinor}.${versionPatch}"
+    testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+    testApplicationId = androidApplicationId + '.test'
+  }
+}
+
+task wrapper(type: Wrapper) {
+  description 'Creates the gradle wrapper.'
+  gradleVersion '2.14.1'
+}
+
+task clean(type: Delete) {
+  delete rootProject.buildDir
+}
+
+task increaseVersion << {
+  println(":increaseVersion")
+  def propsFile = file("config/buildsystem/dependencies.gradle")
+  def propsText = propsFile.getText()
+  def patternVersionNumber = Pattern.compile("versionBuild = (\\d+)")
+  def matcherVersionNumber = patternVersionNumber.matcher(propsText)
+  def versionMajor = rootProject.ext.versionMajor
+  def versionMinor = rootProject.ext.versionMinor
+  def versionPatch = rootProject.ext.versionPatch
+  def versionBuild = rootProject.ext.versionBuild
+
+  propsText = matcherVersionNumber.replaceAll("versionBuild = " + ++versionBuild)
+  propsFile.write(propsText)
+  println("Bumped version : " + versionMajor +
+      "." +
+      versionMinor +
+      "." +
+      versionPatch +
+      "." +
+      versionBuild)
+}

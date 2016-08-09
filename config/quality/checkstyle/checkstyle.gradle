@@ -1,0 +1,10 @@
+apply plugin: 'checkstyle'
+
+task checkstyle(type: Checkstyle) {
+    configFile file("${project.rootDir}/config/quality/checkstyle/checkstyle.xml")
+    source 'app/src','domain/src','data/src','commons/src'
+    include '**/*.java'
+    exclude '**/gen/**', '**/java-gen/**'
+
+    classpath = files()
+}

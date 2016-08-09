@@ -1,0 +1,66 @@
+
+def jacocoVersion = '0.7.5.201505241946'
+
+def ignoredModules = [
+        '',
+]
+
+def jacocoVars = [
+        app: [
+                depends         : 'testFreeDebugUnitTest',
+                classDirectories: 'build/intermediates/classes/debug',
+                source          : 'src/main/java',
+                exclude         : '',
+                execution       : 'build/jacoco/testFreeDebugUnitTest.exec'
+        ],
+        domain: [
+                depends         : 'test',
+                classDirectories: 'build/classes/main',
+                source          : 'src/main/java',
+                exclude         : '',
+                execution       : 'build/jacoco/test.exec'
+        ],
+        data: [
+                depends         : 'testDebugUnitTest',
+                classDirectories: 'build/intermediates/classes/debug',
+                source          : 'src/main/java',
+                exclude         : '',
+                execution       : 'build/jacoco/testDebugUnitTest.exec'
+        ],
+        commons: [
+                depends         : 'testDebugUnitTest',
+                classDirectories: 'build/intermediates/classes/debug',
+                source          : 'src/main/java',
+                exclude         : '',
+                execution       : 'build/jacoco/testDebugUnitTest.exec'
+        ]
+]
+
+subprojects { prj ->
+    if (!ignoredModules.contains(prj.name)) {
+        apply plugin: 'jacoco'
+
+        jacoco {
+            toolVersion = jacocoVersion
+            reportsDir = file(prj.getBuildDir().toString() + "/jacocoReportDir")
+        }
+
+        task jacocoReport(type: JacocoReport, dependsOn: jacocoVars.(prj.name).depends) {
+            group = 'Reporting'
+            description = 'Generate Jacoco coverage reports after running tests.'
+
+            reports {
+                xml.enabled = true
+                html.enabled = true
+            }
+
+            classDirectories = fileTree(
+                    dir: jacocoVars.(prj.name).classDirectories,
+                    exclude: jacocoVars.(prj.name).exclude
+            )
+
+            sourceDirectories = files(jacocoVars.(prj.name).source)
+            executionData = files(jacocoVars.(prj.name).execution)
+        }
+    }
+}
