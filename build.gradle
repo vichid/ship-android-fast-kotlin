@@ -9,7 +9,6 @@ apply from: 'config/quality/checkstyle/checkstyle.gradle'
 
 apply plugin: 'kotlin'
 
-
 buildscript {
   ext.kotlin_version = '1.0.3'
   repositories {
@@ -17,9 +16,9 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.2.0-alpha7'
+    classpath "com.android.tools.build:gradle:2.2.0-alpha7"
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
-    classpath "io.realm:realm-gradle-plugin:1.0.0"
+    classpath "com.frogermcs.androiddevmetrics:androiddevmetrics-plugin:0.4"
   }
 }
 
@@ -41,6 +40,14 @@ task wrapper(type: Wrapper) {
 
 task clean(type: Delete) {
   delete rootProject.buildDir
+}
+
+task runUnitTests(dependsOn: [':app:testDebugUnitTest']) {
+  description 'Run unit tests for both domain and data layers.'
+}
+
+task runAcceptanceTests(dependsOn: [':app:connectedAndroidTest']) {
+  description 'Run application acceptance tests.'
 }
 
 task increaseVersion << {

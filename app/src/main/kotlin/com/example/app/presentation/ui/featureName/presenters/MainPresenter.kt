@@ -1,7 +1,7 @@
 package com.example.app.presentation.ui.featureName.presenters
 
 import com.example.app.domain.model.Github
-import com.example.app.domain.usingcases.GithubUseCase
+import com.example.app.domain.interactor.featureName.GithubUseCase
 import com.example.app.presentation.di.scopes.PerActivity
 import com.example.app.presentation.ui.featureName.views.MainView
 import rx.lang.kotlin.FunctionSubscriber

@@ -20,25 +20,26 @@ ext {
 
   //Google Libraries
   supportVersion = '24.1.1'
+  daggerVersion = '2.6'
 
   //Anko
   ankoVersion = '0.8.3'
 
   //Libraries
-  daggerVersion = '2.0.2'
   butterKnifeVersion = '8.0.1'
   rxJavaVersion = '1.0.14'
   rxAndroidVersion = '1.0.1'
   javaxAnnotationVersion = '1.0'
   gsonVersion = '2.3'
   retrofitVersion = '2.0.2'
-  calligraphyVersion = '2.1.0'
-  icepickVersion = '3.2.0'
   glideVersion = '3.7.0'
-  timberVersion = '4.1.1'
   okHttpVersion = '3.2.0'
   dexterVersion = '2.2.2'
   rxKotlinVersion = '0.60.0'
+
+  //Debug
+  leakcanaryVersion = '1.4-beta2'
+  timberVersion = '4.1.2'
 
   //Testing
   robolectricVersion = '3.0'
@@ -68,6 +69,8 @@ ext {
       ankoDesign         : "org.jetbrains.anko:anko-design:${ankoVersion}",
       ankoRecyclerview   : "org.jetbrains.anko:anko-recyclerview-v7:${ankoVersion}",
       ankoCards          : "org.jetbrains.anko:anko-cardview-v7:${ankoVersion}",
+      leakcanaryDebug    : "com.squareup.leakcanary:leakcanary-android:${leakcanaryVersion}",
+      leakcanaryRelease  : "com.squareup.leakcanary:leakcanary-android-no-op:${leakcanaryVersion}",
   ]
 
   presentationTestDependencies = [

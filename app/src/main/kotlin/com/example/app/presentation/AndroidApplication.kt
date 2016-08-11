@@ -4,9 +4,8 @@ import android.app.Application
 import android.content.Context
 import com.example.app.presentation.di.components.ApplicationComponent
 import com.example.app.presentation.di.components.DaggerApplicationComponent
-import io.realm.Realm
-import io.realm.RealmConfiguration
-
+import com.frogermcs.androiddevmetrics.AndroidDevMetrics
+import com.squareup.leakcanary.LeakCanary
 
 /**
  * Android Main Application
@@ -20,13 +19,17 @@ class AndroidApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        initRealm()
+        initMetrics()
+        initLeakCanary()
         component.inject(this)
     }
 
-    private fun initRealm() {
-        val realmConfiguration: RealmConfiguration = RealmConfiguration.Builder(this).build();
-        Realm.setDefaultConfiguration(realmConfiguration)
+    private fun initMetrics() {
+        AndroidDevMetrics.initWith(this)
+    }
+
+    private fun initLeakCanary() {
+        LeakCanary.install(this)
     }
 
     companion object {

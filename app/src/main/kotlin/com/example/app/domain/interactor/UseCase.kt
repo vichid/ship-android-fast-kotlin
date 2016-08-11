@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.app.domain.usingcases
+package com.example.app.domain.interactor
 
 import com.example.app.domain.executor.PostExecutionThread
 import com.example.app.domain.executor.ThreadExecutor
