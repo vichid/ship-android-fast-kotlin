@@ -70,6 +70,5 @@ class ApplicationModule(private val androidApplication: AndroidApplication) {
     @Singleton
     fun provideGithubRepository(dataRepository: GithubDataRepository): GithubRepository {
         return dataRepository
-
     }
 }

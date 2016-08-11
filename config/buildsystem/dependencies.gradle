@@ -21,6 +21,9 @@ ext {
   //Google Libraries
   supportVersion = '24.1.1'
 
+  //Anko
+  ankoVersion = '0.8.3'
+
   //Libraries
   daggerVersion = '2.0.2'
   butterKnifeVersion = '8.0.1'
@@ -49,18 +52,22 @@ ext {
   presentationDependencies = [
       daggerCompiler     : "com.google.dagger:dagger-compiler:${daggerVersion}",
       dagger             : "com.google.dagger:dagger:${daggerVersion}",
-      butterKnife        : "com.jakewharton:butterknife:${butterKnifeVersion}",
-      butterKnifeCompiler: "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
+      support            : "com.android.support:support-v4:${supportVersion}",
+      supportAppCompat   : "com.android.support:appcompat-v7:${supportVersion}",
       supportRecyclerView: "com.android.support:recyclerview-v7:${supportVersion}",
       supportCardView    : "com.android.support:cardview-v7:${supportVersion}",
-      supportGridLayout  : "com.android.support:gridlayout-v7:${supportVersion}",
       supportDesign      : "com.android.support:design:${supportVersion}",
-      supportAppCompat   : "com.android.support:appcompat-v7:${supportVersion}",
       rxJava             : "io.reactivex:rxjava:${rxJavaVersion}",
       rxAndroid          : "io.reactivex:rxandroid:${rxAndroidVersion}",
       javaxAnnotation    : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
       glide              : "com.github.bumptech.glide:glide:${glideVersion}",
-      rxKotlin           : "io.reactivex:rxkotlin:${rxKotlinVersion}"
+      rxKotlin           : "io.reactivex:rxkotlin:${rxKotlinVersion}",
+      ankoSdk            : "org.jetbrains.anko:anko-sdk15:${ankoVersion}",
+      ankoSupport        : "org.jetbrains.anko:anko-support-v4:${ankoVersion}",
+      ankoAppcompat      : "org.jetbrains.anko:anko-appcompat-v7:${ankoVersion}",
+      ankoDesign         : "org.jetbrains.anko:anko-design:${ankoVersion}",
+      ankoRecyclerview   : "org.jetbrains.anko:anko-recyclerview-v7:${ankoVersion}",
+      ankoCards          : "org.jetbrains.anko:anko-cardview-v7:${ankoVersion}",
   ]
 
   presentationTestDependencies = [

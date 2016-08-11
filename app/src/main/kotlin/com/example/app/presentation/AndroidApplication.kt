@@ -2,8 +2,8 @@ package com.example.app.presentation
 
 import android.app.Application
 import android.content.Context
-import com.example.app.presentation.internal.di.components.ApplicationComponent
-import com.example.app.presentation.internal.di.components.DaggerApplicationComponent
+import com.example.app.presentation.di.components.ApplicationComponent
+import com.example.app.presentation.di.components.DaggerApplicationComponent
 import io.realm.Realm
 import io.realm.RealmConfiguration
 

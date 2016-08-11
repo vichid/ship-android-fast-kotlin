@@ -6,10 +6,6 @@ import io.realm.RealmQuery
 import rx.Observable
 import javax.inject.Inject
 
-/**
- * Created by djuarez on 16/6/16.
- */
-
 class DBHelper @Inject constructor() {
 
     private val realm: Realm = Realm.getDefaultInstance()

@@ -3,7 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="AppTheme.Base"/>
 
-    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorControlNormal">@color/color_control_normal</item>
@@ -13,11 +13,7 @@
         <item name="android:textColorPrimary">@color/text_color_primary</item>
         <item name="android:textColorSecondary">@color/text_color_secondary</item>
 
-        <item name="android:windowBackground">@color/primary</item>
         <item name="colorControlActivated">@android:color/white</item>
     </style>
 
-    <style name="AppTheme.Base.White">
-        <item name="android:windowBackground">@android:color/white</item>
-    </style>
 </resources>

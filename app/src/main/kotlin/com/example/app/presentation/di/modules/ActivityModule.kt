@@ -1,7 +1,7 @@
-package com.example.app.presentation.internal.di.modules
+package com.example.app.presentation.di.modules
 
 import android.app.Activity
-import com.example.app.presentation.internal.di.scope.PerActivity
+import com.example.app.presentation.di.scopes.PerActivity
 import dagger.Module
 import dagger.Provides
 

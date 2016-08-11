@@ -1,4 +1,4 @@
-package com.example.app.presentation.ui.main.views
+package com.example.app.presentation.ui.featureName.views
 
 import com.example.app.domain.model.Github
 
