@@ -8,7 +8,7 @@ class MainActivityUI : AnkoComponent<MainActivity> {
     override fun createView(ui: AnkoContext<MainActivity>) = with(ui) {
         relativeLayout {
             padding = 45
-            owner.userImage = imageView().lparams(width = 100, height = 100) {
+            owner.userImage = imageView().lparams(width = 400, height = 400) {
                 centerHorizontally()
             };
         }

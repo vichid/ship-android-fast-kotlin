@@ -5,7 +5,6 @@ import android.content.Context
 import com.example.app.presentation.di.components.ApplicationComponent
 import com.example.app.presentation.di.components.DaggerApplicationComponent
 import com.example.app.presentation.di.modules.ApplicationModule
-import com.frogermcs.androiddevmetrics.AndroidDevMetrics
 import com.squareup.leakcanary.LeakCanary
 
 /**
@@ -20,13 +19,8 @@ class AndroidApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        initMetrics()
         initLeakCanary()
         component.inject(this)
-    }
-
-    private fun initMetrics() {
-        AndroidDevMetrics.initWith(this)
     }
 
     private fun initLeakCanary() {

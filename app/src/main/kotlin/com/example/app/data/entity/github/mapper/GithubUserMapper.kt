@@ -6,8 +6,10 @@ import com.example.app.domain.model.github.GithubUserDomain
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton class GithubUserMapper
-@Inject constructor() : BaseMapper<GithubUserDomain, GithubUserEntity>() {
+@Singleton
+class GithubUserMapper
+@Inject
+constructor() : BaseMapper<GithubUserDomain, GithubUserEntity>() {
 
     override fun transformFromTo(githubUser: GithubUserDomain): GithubUserEntity {
         return GithubUserEntity(
