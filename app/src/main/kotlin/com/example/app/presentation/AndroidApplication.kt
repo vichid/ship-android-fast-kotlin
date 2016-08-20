@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.example.app.presentation.di.components.ApplicationComponent
 import com.example.app.presentation.di.components.DaggerApplicationComponent
+import com.example.app.presentation.di.modules.ApplicationModule
 import com.frogermcs.androiddevmetrics.AndroidDevMetrics
 import com.squareup.leakcanary.LeakCanary
 

@@ -143,11 +143,11 @@ dependencies {
   provided presentationDependencies.javaxAnnotation
 
   compile dataDependencies.retrofit2
-  compile dataDependencies.retrofit2Converter
+  compile dataDependencies.retrofit2MoshiConverter
   compile dataDependencies.retrofit2RxAdapter
-  compile dataDependencies.gson
   compile dataDependencies.supportAnnotations
   compile dataDependencies.okHttpLoggingInterceptor
+  compile dataDependencies.moshi
 
   androidTestCompile presentationTestDependencies.mockito
   androidTestCompile presentationTestDependencies.dexmaker

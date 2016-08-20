@@ -26,15 +26,16 @@ ext {
   ankoVersion = '0.8.3'
 
   //Libraries
-  butterKnifeVersion = '8.0.1'
-  rxJavaVersion = '1.0.14'
-  rxAndroidVersion = '1.0.1'
   javaxAnnotationVersion = '1.0'
-  gsonVersion = '2.3'
   retrofitVersion = '2.0.2'
   glideVersion = '3.7.0'
   okHttpVersion = '3.2.0'
   dexterVersion = '2.2.2'
+  moshiVersion = '1.2.0'
+
+  //Rx
+  rxJavaVersion = '1.1.9'
+  rxAndroidVersion = '1.2.1'
   rxKotlinVersion = '0.60.0'
 
   //Debug
@@ -100,14 +101,14 @@ ext {
       daggerCompiler          : "com.google.dagger:dagger-compiler:${daggerVersion}",
       dagger                  : "com.google.dagger:dagger:${daggerVersion}",
       retrofit2               : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
-      retrofit2Converter      : "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
+      retrofit2MoshiConverter : "com.squareup.retrofit2:converter-moshi:${retrofitVersion}",
       retrofit2RxAdapter      : "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}",
-      gson                    : "com.google.code.gson:gson:${gsonVersion}",
       rxJava                  : "io.reactivex:rxjava:${rxJavaVersion}",
       rxAndroid               : "io.reactivex:rxandroid:${rxAndroidVersion}",
       javaxAnnotation         : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
       supportAnnotations      : "com.android.support:support-annotations:${supportVersion}",
-      okHttpLoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
+      okHttpLoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
+      moshi                   : "com.squareup.moshi:moshi:${moshiVersion}",
   ]
 
   dataTestDependencies = [

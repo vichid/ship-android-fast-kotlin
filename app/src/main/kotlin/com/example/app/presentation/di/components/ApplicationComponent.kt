@@ -1,8 +1,8 @@
 package com.example.app.presentation.di.components
 
 import com.example.app.presentation.AndroidApplication
-import com.example.app.presentation.ApplicationModule
 import com.example.app.presentation.di.modules.ActivityModule
+import com.example.app.presentation.di.modules.ApplicationModule
 import dagger.Component
 import javax.inject.Singleton
 

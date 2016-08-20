@@ -2,7 +2,7 @@ package com.example.app.presentation.di.components
 
 import com.example.app.presentation.di.modules.ActivityModule
 import com.example.app.presentation.di.scopes.PerActivity
-import com.example.app.presentation.ui.featureName.activities.MainActivity
+import com.example.app.presentation.ui.github.activities.MainActivity
 import dagger.Subcomponent
 
 /**
