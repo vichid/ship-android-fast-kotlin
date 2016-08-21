@@ -42,7 +42,7 @@ ext {
 
   //Debug
   leakcanaryVersion = '1.4-beta2'
-  timberVersion = '4.1.2'
+  timberVersion = '4.3.0'
 
   //Testing
   robolectricVersion = '3.0'
@@ -75,6 +75,7 @@ ext {
       ankoCards          : "org.jetbrains.anko:anko-cardview-v7:${ankoVersion}",
       leakcanaryDebug    : "com.squareup.leakcanary:leakcanary-android:${leakcanaryVersion}",
       leakcanaryRelease  : "com.squareup.leakcanary:leakcanary-android-no-op:${leakcanaryVersion}",
+      timber             : "com.jakewharton.timber:timber:${timberVersion}",
   ]
 
   presentationTestDependencies = [

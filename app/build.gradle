@@ -74,6 +74,7 @@ android {
       def type = rootProject.ext.stage
       applicationIdSuffix '.stage'
       buildConfigField "String", "API_URL", type.apiUrl
+      //TODO: fix anko version to allow minification
       minifyEnabled true
       debuggable true
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro',
@@ -91,22 +92,20 @@ android {
     }
   }
 
-  applicationVariants.all { variant ->
-    variant.outputs.each { output ->
-      def newApkName
-      //If there's no ZipAlign task it means that our artifact will be unaligned and we need to mark it as such.
-      if (output.zipAlign) {
-        newApkName = appName + "-${variant.versionName}.apk"
-      } else {
-        newApkName = appName + "-${variant.versionName}-unaligned.apk"
-      }
-      output.outputFile = new File(output.outputFile.parent, newApkName)
-    }
-  }
-
   sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
   }
+
+/*
+  TODO: if we want to minimize the size of the apk with different releases
+ splits {
+    abi {
+      enable true
+      reset()
+      include 'x86', 'x86_64', 'arm64-v8a', 'armeabi-v7a', 'armeabi'
+      universalApk false
+    }
+  }*/
 }
 
 dependencies {
@@ -118,15 +117,20 @@ dependencies {
 
   kapt presentationDependencies.daggerCompiler
   compile presentationDependencies.dagger
+
   compile presentationDependencies.supportRecyclerView
   compile presentationDependencies.supportCardView
   compile presentationDependencies.supportDesign
   compile presentationDependencies.supportAppCompat
   compile presentationDependencies.support
-  compile presentationDependencies.rxJava
-  compile presentationDependencies.rxAndroid
+
   compile presentationDependencies.fresco
   compile presentationDependencies.frescoOkhttp
+
+  compile presentationDependencies.timber
+
+  compile presentationDependencies.rxJava
+  compile presentationDependencies.rxAndroid
   compile presentationDependencies.rxKotlin
 
   compile presentationDependencies.ankoSdk

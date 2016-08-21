@@ -47,5 +47,4 @@ class ApplicationModule(private val androidApplication: AndroidApplication) {
     fun provideSharedPreferences(): SharedPreferences {
         return androidApplication.getSharedPreferences("app", Context.MODE_APPEND)
     }
-
 }

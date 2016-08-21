@@ -10,7 +10,7 @@ apply from: 'config/quality/checkstyle/checkstyle.gradle'
 apply plugin: 'kotlin'
 
 buildscript {
-  ext.kotlin_version = '1.0.3'
+  ext.kotlin_version = '1.0.2'
   repositories {
     jcenter()
     mavenCentral()
