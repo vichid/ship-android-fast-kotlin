@@ -125,7 +125,8 @@ dependencies {
   compile presentationDependencies.support
   compile presentationDependencies.rxJava
   compile presentationDependencies.rxAndroid
-  compile presentationDependencies.glide
+  compile presentationDependencies.fresco
+  compile presentationDependencies.frescoOkhttp
   compile presentationDependencies.rxKotlin
 
   compile presentationDependencies.ankoSdk

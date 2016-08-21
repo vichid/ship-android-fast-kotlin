@@ -23,15 +23,17 @@ ext {
   daggerVersion = '2.6'
 
   //Anko
-  ankoVersion = '0.8.3'
+  ankoVersion = '0.9'
 
   //Libraries
   javaxAnnotationVersion = '1.0'
-  retrofitVersion = '2.0.2'
-  glideVersion = '3.7.0'
-  okHttpVersion = '3.2.0'
+  frescoVersion = '0.13.0'
   dexterVersion = '2.2.2'
   moshiVersion = '1.2.0'
+
+  //Network
+  okHttpVersion = '3.2.0'
+  retrofitVersion = '2.0.2'
 
   //Rx
   rxJavaVersion = '1.1.9'
@@ -62,7 +64,8 @@ ext {
       rxJava             : "io.reactivex:rxjava:${rxJavaVersion}",
       rxAndroid          : "io.reactivex:rxandroid:${rxAndroidVersion}",
       javaxAnnotation    : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-      glide              : "com.github.bumptech.glide:glide:${glideVersion}",
+      fresco             : "com.facebook.fresco:fresco:${frescoVersion}",
+      frescoOkhttp       : "com.facebook.fresco:imagepipeline-okhttp3:${frescoVersion}",
       rxKotlin           : "io.reactivex:rxkotlin:${rxKotlinVersion}",
       ankoSdk            : "org.jetbrains.anko:anko-sdk15:${ankoVersion}",
       ankoSupport        : "org.jetbrains.anko:anko-support-v4:${ankoVersion}",

@@ -5,12 +5,15 @@ import android.content.Context
 import com.example.app.presentation.di.components.ApplicationComponent
 import com.example.app.presentation.di.components.DaggerApplicationComponent
 import com.example.app.presentation.di.modules.ApplicationModule
-import com.squareup.leakcanary.LeakCanary
+import javax.inject.Inject
 
 /**
  * Android Main Application
  */
 class AndroidApplication : Application() {
+
+    @Inject
+    lateinit var appManager: AppManager
 
     val component: ApplicationComponent
         get() = DaggerApplicationComponent.builder()
@@ -19,12 +22,8 @@ class AndroidApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        initLeakCanary()
         component.inject(this)
-    }
-
-    private fun initLeakCanary() {
-        LeakCanary.install(this)
+        appManager.init()
     }
 
     companion object {

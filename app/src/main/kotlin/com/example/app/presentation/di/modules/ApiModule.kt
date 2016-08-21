@@ -1,10 +1,14 @@
 package com.example.app.presentation.di.modules
 
 import android.content.Context
+import android.os.Build
 import com.example.app.BuildConfig
 import com.example.app.data.net.github.GithubService
+import com.example.app.data.net.interceptor.UserAgentInterceptor
 import com.example.app.domain.executor.ThreadExecutor
 import com.example.app.presentation.di.qualifiers.ClientCache
+import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory
+import com.facebook.imagepipeline.core.ImagePipelineConfig
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -15,6 +19,7 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import rx.schedulers.Schedulers
 import java.io.File
+import java.util.*
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -54,10 +59,25 @@ class ApiModule {
 
     @Provides
     @Singleton
-    internal fun provideOkHttpClient(@ClientCache cache: Cache): OkHttpClient {
+    internal fun provideOkHttpClient(
+            @ClientCache cache: Cache,
+            @Named("userAgent") userAgentValue: String
+    ): OkHttpClient {
         return OkHttpClient.Builder()
+                .addNetworkInterceptor(UserAgentInterceptor(userAgentValue))
                 .cache(cache)
                 .build()
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideImagePipelineConfig(
+            context: Context,
+            okHttpClient: OkHttpClient
+    ): ImagePipelineConfig {
+        return OkHttpImagePipelineConfigFactory
+                .newBuilder(context, okHttpClient)
+                .build();
     }
 
     @Provides
@@ -72,6 +92,28 @@ class ApiModule {
     @ClientCache
     internal fun provideCacheFile(context: Context): File {
         return File(context.cacheDir, "HttpResponseCache")
+    }
+
+    @Provides
+    @Singleton
+    @Named("userAgent")
+    internal fun provideUserAgentHeader(): String {
+        return String.format(
+                Locale.getDefault(),
+                "Android;%s;%s;%d;%s;%s;%d;",
+                Build.BRAND,
+                Build.MODEL,
+                Build.VERSION.SDK_INT,
+                BuildConfig.APPLICATION_ID,
+                BuildConfig.VERSION_NAME,
+                BuildConfig.VERSION_CODE)
+    }
+
+    @Provides
+    @Singleton
+    @Named("apiUrl")
+    internal fun provideApiUrl(): String {
+        return BuildConfig.API_URL
     }
 
     companion object {

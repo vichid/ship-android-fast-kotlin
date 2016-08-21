@@ -15,7 +15,7 @@ import javax.inject.Singleton
 /**
  * Dagger module that provides objects which will live during the application lifecycle.
  */
-@Module(includes = arrayOf(DataModule::class))
+@Module(includes = arrayOf(DataModule::class, PresentationModule::class))
 class ApplicationModule(private val androidApplication: AndroidApplication) {
 
     @Provides
