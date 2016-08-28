@@ -5,5 +5,5 @@ import com.example.app.presentation.ui.github.model.GithubUser
 
 interface GithubUserView {
     fun renderView(githubUser: GithubUser)
-    fun showError(throwable: Throwable)
+    fun showError(exception: Exception)
 }

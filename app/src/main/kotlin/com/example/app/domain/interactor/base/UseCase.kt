@@ -4,8 +4,6 @@ import com.example.app.domain.executor.PostExecutionThread
 import com.example.app.domain.executor.ThreadExecutor
 import rx.Observable
 import rx.Subscriber
-import rx.functions.Action0
-import rx.functions.Action1
 import rx.schedulers.Schedulers
 import rx.subscriptions.Subscriptions
 
@@ -18,7 +16,11 @@ import rx.subscriptions.Subscriptions
  * By convention each UseCase implementation will return the result using a [Subscriber]
  * that will execute its job in a background thread and will post the result in the UI thread.
  */
-abstract class UseCase<T> protected constructor(private val threadExecutor: ThreadExecutor, private val postExecutionThread: PostExecutionThread) {
+abstract class UseCase<T>
+protected constructor(
+        private val threadExecutor: ThreadExecutor,
+        private val postExecutionThread: PostExecutionThread
+) {
 
     private var subscription = Subscriptions.empty()
 
@@ -29,39 +31,15 @@ abstract class UseCase<T> protected constructor(private val threadExecutor: Thre
 
     /**
      * Executes the current use case.
-
      * @param useCaseSubscriber The guy who will be listen to the observable build with [ ][.buildUseCaseObservable].
+     * @param activityLifecycleProvider the lifecycle to which attach
      */
-    @SuppressWarnings("unchecked")
-    fun execute(useCaseSubscriber: Subscriber<T>) {
+    fun execute(
+            useCaseSubscriber: Subscriber<T>
+    ) {
         this.subscription = this.buildUseCaseObservable()
                 .subscribeOn(Schedulers.from(threadExecutor))
                 .observeOn(postExecutionThread.scheduler)
                 .subscribe(useCaseSubscriber)
-    }
-
-    @SuppressWarnings("unchecked")
-    fun execute(onNext: Action1<T>, onError: Action1<Throwable>) {
-        this.subscription = this.buildUseCaseObservable()
-                .subscribeOn(Schedulers.from(threadExecutor))
-                .observeOn(postExecutionThread.scheduler)
-                .subscribe(onNext, onError)
-    }
-
-    @SuppressWarnings("unchecked")
-    fun execute(onNext: Action1<T>, onError: Action1<Throwable>, onCompleted: Action0) {
-        this.subscription = this.buildUseCaseObservable()
-                .subscribeOn(Schedulers.from(threadExecutor))
-                .observeOn(postExecutionThread.scheduler)
-                .subscribe(onNext, onError, onCompleted)
-    }
-
-    /**
-     * Unsubscribes from current [Subscription].
-     */
-    fun unsubscribe() {
-        if (!subscription.isUnsubscribed) {
-            subscription.unsubscribe()
-        }
     }
 }

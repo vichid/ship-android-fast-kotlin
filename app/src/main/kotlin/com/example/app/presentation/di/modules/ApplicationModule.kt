@@ -27,7 +27,7 @@ class ApplicationModule(private val androidApplication: AndroidApplication) {
     @Provides
     @Singleton
     fun provideApplicationContext(): Context {
-        return androidApplication
+        return androidApplication.applicationContext
     }
 
     @Provides

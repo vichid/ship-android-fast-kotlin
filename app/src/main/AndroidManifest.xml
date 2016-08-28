@@ -7,20 +7,18 @@
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
   <application
-    android:name="com.example.app.presentation.AndroidApplication"
+    android:name=".presentation.AndroidApplication"
     android:allowBackup="true"
     android:icon="@mipmap/ic_launcher"
     android:label="@string/app_name"
     android:theme="@style/AppTheme">
-    <activity
-      android:name="com.example.app.presentation.ui.github.activities.GithubUserActivity"
-      android:label="@string/app_name">
+    <activity android:name=".presentation.ui.github.activities.FollowersActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-
+    <activity android:name=".presentation.ui.github.activities.GithubUserActivity" />
   </application>
 
 

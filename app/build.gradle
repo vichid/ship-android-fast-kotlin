@@ -25,8 +25,6 @@ android {
     versionName rootProject.ext.androidVersionName
     testInstrumentationRunner rootProject.ext.testInstrumentationRunner
     testApplicationId rootProject.ext.testApplicationId
-
-    generatedDensities = []
   }
 
   aaptOptions {
@@ -97,7 +95,7 @@ android {
   }
 
 /*
-  TODO: if we want to minimize the size of the apk with different releases
+  TODO: if we want to minimize the size of the apk with different releases for fresco libs
  splits {
     abi {
       enable true

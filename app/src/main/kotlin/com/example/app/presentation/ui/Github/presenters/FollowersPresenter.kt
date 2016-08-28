@@ -1,32 +1,32 @@
 package com.example.app.presentation.ui.github.presenters
 
 import com.example.app.domain.exception.DefaultErrorBundle
-import com.example.app.domain.interactor.github.RetrieveGithubUserUseCase
-import com.example.app.domain.model.github.GithubUserDomain
+import com.example.app.domain.interactor.github.RetrieveFollowersUseCase
+import com.example.app.domain.model.github.FollowerDomain
 import com.example.app.presentation.di.scopes.PerActivity
-import com.example.app.presentation.ui.github.model.mapper.GithubUserMapper
-import com.example.app.presentation.ui.github.views.GithubUserView
+import com.example.app.presentation.ui.github.model.mapper.FollowerMapper
+import com.example.app.presentation.ui.github.views.FollowersView
 import rx.lang.kotlin.FunctionSubscriber
 import timber.log.Timber
 import javax.inject.Inject
 
 @PerActivity
-class GithubUserPresenter
+class FollowersPresenter
 @Inject
 constructor(
-        private val retrieveGithubUserUseCase: RetrieveGithubUserUseCase,
-        private val githubUserMapper: GithubUserMapper
+        private val retrieveFollowersUseCase: RetrieveFollowersUseCase,
+        private val followerMapper: FollowerMapper
 ) {
 
-    var view: GithubUserView? = null
+    var view: FollowersView? = null
 
     fun init() {
-        retrieveGithubUserUseCase
+        retrieveFollowersUseCase
                 .init("vichid")
                 .execute(
-                        FunctionSubscriber<GithubUserDomain>()
+                        FunctionSubscriber<List<FollowerDomain>>()
                                 .onStart { Timber.d("executing") }
-                                .onNext { view?.renderView(githubUserMapper.transform(it)) }
+                                .onNext { view?.showFollowers(followerMapper.transform(it)) }
                                 .onCompleted { Timber.d("completed") }
                                 .onError {
                                     view?.showError(DefaultErrorBundle(it as Exception).exception)

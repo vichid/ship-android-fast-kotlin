@@ -3,7 +3,7 @@ package com.example.app.data.entity.base
 
 abstract class BaseMapper<From, To> {
 
-    abstract fun transformToFrom(githubUserDomain: To): From
+    abstract fun transform(from: From): To
 
-    abstract fun transformFromTo(githubUser: From): To
+    abstract fun transform(from: List<From>): List<To>
 }

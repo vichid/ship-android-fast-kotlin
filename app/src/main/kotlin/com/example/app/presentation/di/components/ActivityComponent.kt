@@ -2,6 +2,7 @@ package com.example.app.presentation.di.components
 
 import com.example.app.presentation.di.modules.ActivityModule
 import com.example.app.presentation.di.scopes.PerActivity
+import com.example.app.presentation.ui.github.activities.FollowersActivity
 import com.example.app.presentation.ui.github.activities.GithubUserActivity
 import dagger.Subcomponent
 
@@ -18,4 +19,6 @@ import dagger.Subcomponent
 interface ActivityComponent {
 
     fun inject(githubUserActivity: GithubUserActivity)
+
+    fun inject(followersActivity: FollowersActivity)
 }

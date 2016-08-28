@@ -9,7 +9,7 @@ import dagger.Provides
  * A module to wrap the Activity state and expose it to the graph.
  */
 @Module
-class ActivityModule(private val baseActivity: Activity) {
+class ActivityModule(private val activity: Activity) {
 
     /**
      * Expose the activity to dependents in the graph.
@@ -17,6 +17,6 @@ class ActivityModule(private val baseActivity: Activity) {
     @Provides
     @PerActivity
     internal fun provideActivity(): Activity {
-        return this.baseActivity
+        return this.activity
     }
 }

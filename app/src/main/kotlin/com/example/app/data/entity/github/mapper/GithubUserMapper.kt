@@ -9,23 +9,26 @@ import javax.inject.Singleton
 @Singleton
 class GithubUserMapper
 @Inject
-constructor() : BaseMapper<GithubUserDomain, GithubUserEntity>() {
+constructor() : BaseMapper<GithubUserEntity, GithubUserDomain>() {
 
-    override fun transformFromTo(githubUser: GithubUserDomain): GithubUserEntity {
-        return GithubUserEntity(
-                id = githubUser.id,
-                avatarUrl = githubUser.avatarUrl,
-                name = githubUser.name,
-                publicRepos = githubUser.publicRepos
-        )
-    }
-
-    override fun transformToFrom(githubUserDomain: GithubUserEntity): GithubUserDomain {
+    override fun transform(from: GithubUserEntity): GithubUserDomain {
         return GithubUserDomain(
-                id = githubUserDomain.id,
-                avatarUrl = githubUserDomain.avatarUrl,
-                name = githubUserDomain.name,
-                publicRepos = githubUserDomain.publicRepos
+                id = from.id,
+                avatarUrl = from.avatar_url,
+                name = from.name,
+                publicRepos = from.public_repos
         )
     }
+
+    override fun transform(from: List<GithubUserEntity>): List<GithubUserDomain> {
+        return from.map {
+            GithubUserDomain(
+                    id = it.id,
+                    avatarUrl = it.avatar_url,
+                    name = it.name,
+                    publicRepos = it.public_repos
+            )
+        }
+    }
+
 }

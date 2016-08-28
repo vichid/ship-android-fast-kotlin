@@ -91,7 +91,7 @@ class ApiModule {
     @Provides
     @ClientCache
     internal fun provideCacheFile(context: Context): File {
-        return File(context.cacheDir, "HttpResponseCache")
+        return File(context.cacheDir, "http_response_cache")
     }
 
     @Provides

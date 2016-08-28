@@ -3,7 +3,8 @@ package com.example.app.presentation.ui.base
 
 abstract class BaseMapper<From, To> {
 
-    abstract fun transformToFrom(githubUserEntity: To): From
+    abstract fun transform(from: From): To
 
-    abstract fun transformFromTo(githubUserDomain: From): To
+    abstract fun transform(from: List<From>): List<To>
+
 }

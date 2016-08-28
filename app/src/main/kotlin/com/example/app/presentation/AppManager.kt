@@ -44,7 +44,7 @@ constructor(
         }
     }
 
-    fun init() {
+    fun finit() {
 
         initLeakCanary()
         initFresco()

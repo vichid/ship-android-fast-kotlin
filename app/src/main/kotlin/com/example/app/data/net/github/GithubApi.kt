@@ -1,5 +1,6 @@
 package com.example.app.data.net.github
 
+import com.example.app.data.entity.github.FollowerEntity
 import com.example.app.data.entity.github.GithubUserEntity
 import rx.Observable
 
@@ -9,4 +10,6 @@ import rx.Observable
 interface GithubApi {
 
     fun githubUser(id: String): Observable<GithubUserEntity>
+
+    fun followers(id: String): Observable<List<FollowerEntity>>
 }

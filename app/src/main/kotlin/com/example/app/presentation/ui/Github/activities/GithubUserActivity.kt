@@ -1,6 +1,7 @@
 package com.example.app.presentation.ui.github.activities
 
 import android.os.Bundle
+import com.example.app.presentation.exception.ErrorMessageFactory
 import com.example.app.presentation.ui.base.BaseActivity
 import com.example.app.presentation.ui.github.ankocomponents.GithubUserActivityUI
 import com.example.app.presentation.ui.github.model.GithubUser
@@ -24,9 +25,9 @@ class GithubUserActivity : BaseActivity(), GithubUserView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         GithubUserActivityUI().setContentView(this)
-        getActivityComponent().inject(this)
-        githubUserPresenter.view = this;
-        githubUserPresenter.onCreate()
+        activityComponent.inject(this)
+        githubUserPresenter.view = this
+        githubUserPresenter.init()
     }
 
     override fun renderView(githubUser: GithubUser) {
@@ -35,7 +36,7 @@ class GithubUserActivity : BaseActivity(), GithubUserView {
         }
     }
 
-    override fun showError(throwable: Throwable) {
-        toast("Something was wrong")
+    override fun showError(exception: Exception) {
+        toast(ErrorMessageFactory.create(this, exception))
     }
 }
