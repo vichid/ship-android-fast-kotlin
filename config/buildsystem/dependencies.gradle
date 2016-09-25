@@ -119,7 +119,6 @@ ext {
       junit             : "junit:junit:${jUnitVersion}",
       assertj           : "org.assertj:assertj-core:${assertJVersion}",
       mockito           : "org.mockito:mockito-core:${mockitoVersion}",
-      supportAnnotations: "com.android.support:support-annotations:${supportVersion}",
-      robolectric       : "org.robolectric:robolectric:${robolectricVersion}"
+      supportAnnotations: "com.android.support:support-annotations:${supportVersion}"
   ]
 }

@@ -21,14 +21,6 @@ constructor() : BaseMapper<GithubUserEntity, GithubUserDomain>() {
     }
 
     override fun transform(from: List<GithubUserEntity>): List<GithubUserDomain> {
-        return from.map {
-            GithubUserDomain(
-                    id = it.id,
-                    avatarUrl = it.avatar_url,
-                    name = it.name,
-                    publicRepos = it.public_repos
-            )
-        }
+        return from.map { transform(it) }
     }
-
 }

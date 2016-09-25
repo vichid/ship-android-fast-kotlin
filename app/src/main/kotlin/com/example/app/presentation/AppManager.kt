@@ -44,7 +44,7 @@ constructor(
         }
     }
 
-    fun finit() {
+    fun init() {
 
         initLeakCanary()
         initFresco()
@@ -65,6 +65,10 @@ constructor(
     }
 
     private fun initLeakCanary() {
+        if (LeakCanary.isInAnalyzerProcess(application)) {
+            application.onTerminate()
+        }
+
         LeakCanary.install(application)
     }
 

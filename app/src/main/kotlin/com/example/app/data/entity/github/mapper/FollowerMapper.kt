@@ -20,12 +20,6 @@ constructor() : BaseMapper<FollowerEntity, FollowerDomain>() {
     }
 
     override fun transform(from: List<FollowerEntity>): List<FollowerDomain> {
-        return from.map {
-            FollowerDomain(
-                    id = it.id,
-                    avatar_url = it.avatar_url,
-                    login = it.login
-            )
-        }
+        return from.map { transform(it) }
     }
 }

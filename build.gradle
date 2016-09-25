@@ -10,13 +10,13 @@ apply from: 'config/quality/checkstyle/checkstyle.gradle'
 apply plugin: 'kotlin'
 
 buildscript {
-  ext.kotlin_version = '1.0.2'
+  ext.kotlin_version = '1.0.4'
   repositories {
     jcenter()
     mavenCentral()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.2.0-beta2'
+    classpath 'com.android.tools.build:gradle:2.2.0'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
   }
 }
