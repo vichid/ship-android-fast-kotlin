@@ -4,6 +4,7 @@ import com.example.app.domain.exception.DefaultErrorBundle
 import com.example.app.domain.interactor.github.RetrieveGithubUserUseCase
 import com.example.app.domain.model.github.GithubUserDomain
 import com.example.app.presentation.di.scopes.PerActivity
+import com.example.app.presentation.ui.github.model.Follower
 import com.example.app.presentation.ui.github.model.mapper.GithubUserMapper
 import com.example.app.presentation.ui.github.views.GithubUserView
 import rx.lang.kotlin.FunctionSubscriber
@@ -20,13 +21,13 @@ constructor(
 
     var view: GithubUserView? = null
 
-    fun init() {
+    fun init(follower: Follower) {
         retrieveGithubUserUseCase
-                .init("vichid")
+                .init(follower.login)
                 .execute(
                         FunctionSubscriber<GithubUserDomain>()
                                 .onStart { Timber.d("executing") }
-                                .onNext { view?.renderView(githubUserMapper.transform(it)) }
+                                .onNext { view?.renderView(githubUserMapper.map(it)) }
                                 .onCompleted { Timber.d("completed") }
                                 .onError {
                                     view?.showError(DefaultErrorBundle(it as Exception).exception)

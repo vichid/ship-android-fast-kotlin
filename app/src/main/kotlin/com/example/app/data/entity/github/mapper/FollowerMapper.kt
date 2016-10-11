@@ -11,15 +11,15 @@ class FollowerMapper
 @Inject
 constructor() : BaseMapper<FollowerEntity, FollowerDomain>() {
 
-    override fun transform(from: FollowerEntity): FollowerDomain {
+    override fun map(from: List<FollowerEntity>): List<FollowerDomain> {
+        return from.map { map(it) }
+    }
+
+    override fun map(from: FollowerEntity): FollowerDomain {
         return FollowerDomain(
                 id = from.id,
                 avatar_url = from.avatar_url,
                 login = from.login
         )
-    }
-
-    override fun transform(from: List<FollowerEntity>): List<FollowerDomain> {
-        return from.map { transform(it) }
     }
 }

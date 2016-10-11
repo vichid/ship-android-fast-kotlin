@@ -26,7 +26,7 @@ constructor(
                 .execute(
                         FunctionSubscriber<List<FollowerDomain>>()
                                 .onStart { Timber.d("executing") }
-                                .onNext { view?.showFollowers(followerMapper.transform(it)) }
+                                .onNext { view?.showFollowers(followerMapper.map(it)) }
                                 .onCompleted { Timber.d("completed") }
                                 .onError {
                                     view?.showError(DefaultErrorBundle(it as Exception).exception)

@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.example.app.presentation.exception.ErrorMessageFactory
 import com.example.app.presentation.ui.base.BaseActivity
 import com.example.app.presentation.ui.github.ankocomponents.GithubUserActivityUI
+import com.example.app.presentation.ui.github.model.Follower
 import com.example.app.presentation.ui.github.model.GithubUser
 import com.example.app.presentation.ui.github.presenters.GithubUserPresenter
 import com.example.app.presentation.ui.github.views.GithubUserView
@@ -26,8 +27,10 @@ class GithubUserActivity : BaseActivity(), GithubUserView {
         super.onCreate(savedInstanceState)
         GithubUserActivityUI().setContentView(this)
         activityComponent.inject(this)
-        githubUserPresenter.view = this
-        githubUserPresenter.init()
+        with(githubUserPresenter) {
+            view = this@GithubUserActivity
+            init(intent.extras.getParcelable<Follower>("follower"))
+        }
     }
 
     override fun renderView(githubUser: GithubUser) {

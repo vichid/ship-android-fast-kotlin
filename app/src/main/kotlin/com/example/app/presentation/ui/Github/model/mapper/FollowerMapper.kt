@@ -10,7 +10,7 @@ import javax.inject.Singleton
 class FollowerMapper
 @Inject
 constructor() : BaseMapper<FollowerDomain, Follower>() {
-    override fun transform(from: FollowerDomain): Follower {
+    override fun map(from: FollowerDomain): Follower {
         return Follower(
                 id = from.id,
                 avatar_url = from.avatar_url,
@@ -18,7 +18,7 @@ constructor() : BaseMapper<FollowerDomain, Follower>() {
         )
     }
 
-    override fun transform(from: List<FollowerDomain>): List<Follower> {
-        return from.map { transform(it) }
+    override fun map(from: List<FollowerDomain>): List<Follower> {
+        return from.map { map(it) }
     }
 }

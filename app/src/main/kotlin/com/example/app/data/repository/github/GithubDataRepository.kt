@@ -20,14 +20,14 @@ constructor(
     override fun retrieveFollowers(id: String): Observable<List<FollowerDomain>> {
         return githubDataFactory.createCloudDataStore()
                 .retrieveFollowers(id)
-                .map { followerMapper.transform(it) }
+                .map { followerMapper.map(it) }
     }
 
     override fun retrieveGithubUser(id: String): Observable<GithubUserDomain> {
         return githubDataFactory
                 .createCloudDataStore()
                 .retrieveGithubUser(id)
-                .map { githubUserMapper.transform(it) }
+                .map { githubUserMapper.map(it) }
     }
 }
 

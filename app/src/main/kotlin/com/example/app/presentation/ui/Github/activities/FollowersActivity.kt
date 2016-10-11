@@ -2,6 +2,7 @@ package com.example.app.presentation.ui.github.activities
 
 import android.os.Bundle
 import com.example.app.presentation.exception.ErrorMessageFactory
+import com.example.app.presentation.navigation.Navigator
 import com.example.app.presentation.ui.base.BaseActivity
 import com.example.app.presentation.ui.github.adapter.FollowersAdapter
 import com.example.app.presentation.ui.github.ankocomponents.FollowersActivityUI
@@ -18,10 +19,15 @@ class FollowersActivity : BaseActivity(), FollowersView {
     lateinit var followersPresenter: FollowersPresenter
     @Inject
     lateinit var followersAdapter: FollowersAdapter
+    @Inject
+    lateinit var navigator: Navigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityComponent.inject(this)
+        followersAdapter.itemClick = {
+            navigator.navigateToGithubUser(it)
+        }
         FollowersActivityUI(followersAdapter).setContentView(this)
         with(followersPresenter) {
             view = this@FollowersActivity

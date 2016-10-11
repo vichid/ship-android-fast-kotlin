@@ -4,7 +4,7 @@ data class FollowerDomain(
 
         val id: Int = 0,
 
-        val avatar_url: String? = null,
+        val avatar_url: String,
 
-        val login: String? = null
+        val login: String
 )

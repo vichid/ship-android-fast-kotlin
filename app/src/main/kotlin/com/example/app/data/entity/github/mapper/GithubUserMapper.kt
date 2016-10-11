@@ -11,7 +11,7 @@ class GithubUserMapper
 @Inject
 constructor() : BaseMapper<GithubUserEntity, GithubUserDomain>() {
 
-    override fun transform(from: GithubUserEntity): GithubUserDomain {
+    override fun map(from: GithubUserEntity): GithubUserDomain {
         return GithubUserDomain(
                 id = from.id,
                 avatarUrl = from.avatar_url,
@@ -20,7 +20,7 @@ constructor() : BaseMapper<GithubUserEntity, GithubUserDomain>() {
         )
     }
 
-    override fun transform(from: List<GithubUserEntity>): List<GithubUserDomain> {
-        return from.map { transform(it) }
+    override fun map(from: List<GithubUserEntity>): List<GithubUserDomain> {
+        return from.map { map(it) }
     }
 }
