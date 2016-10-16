@@ -15,7 +15,7 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideGithubRepository(githubDataRepository: GithubDataRepository): GithubRepository {
+    internal fun provideGithubRepository(githubDataRepository: GithubDataRepository): GithubRepository {
         return githubDataRepository
     }
 

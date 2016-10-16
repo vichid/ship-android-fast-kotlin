@@ -5,7 +5,6 @@ import com.example.app.domain.executor.ThreadExecutor
 import rx.Observable
 import rx.Subscriber
 import rx.schedulers.Schedulers
-import rx.subscriptions.Subscriptions
 
 
 /**
@@ -22,8 +21,6 @@ protected constructor(
         private val postExecutionThread: PostExecutionThread
 ) {
 
-    private var subscription = Subscriptions.empty()
-
     /**
      * Builds an [Observable] which will be used when executing the current [UseCase].
      */
@@ -31,15 +28,10 @@ protected constructor(
 
     /**
      * Executes the current use case.
-     * @param useCaseSubscriber The guy who will be listen to the observable build with [ ][.buildUseCaseObservable].
-     * @param activityLifecycleProvider the lifecycle to which attach
      */
-    fun execute(
-            useCaseSubscriber: Subscriber<T>
-    ) {
-        this.subscription = this.buildUseCaseObservable()
+    fun execute(): Observable<T> {
+        return buildUseCaseObservable()
                 .subscribeOn(Schedulers.from(threadExecutor))
                 .observeOn(postExecutionThread.scheduler)
-                .subscribe(useCaseSubscriber)
     }
 }

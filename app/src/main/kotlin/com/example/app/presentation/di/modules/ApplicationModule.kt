@@ -20,31 +20,31 @@ class ApplicationModule(private val androidApplication: AndroidApplication) {
 
     @Provides
     @Singleton
-    fun application(): AndroidApplication {
+    internal fun application(): AndroidApplication {
         return androidApplication
     }
 
     @Provides
     @Singleton
-    fun provideApplicationContext(): Context {
+    internal fun provideApplicationContext(): Context {
         return androidApplication.applicationContext
     }
 
     @Provides
     @Singleton
-    fun provideThreadExecutor(jobExecutor: JobExecutor): ThreadExecutor {
+    internal fun provideThreadExecutor(jobExecutor: JobExecutor): ThreadExecutor {
         return jobExecutor
     }
 
     @Provides
     @Singleton
-    fun providePostExecutionThread(uiThread: UIThread): PostExecutionThread {
+    internal fun providePostExecutionThread(uiThread: UIThread): PostExecutionThread {
         return uiThread
     }
 
     @Provides
     @Singleton
-    fun provideSharedPreferences(): SharedPreferences {
+    internal fun provideSharedPreferences(): SharedPreferences {
         return androidApplication.getSharedPreferences("app", Context.MODE_APPEND)
     }
 }

@@ -25,24 +25,32 @@ class FollowersActivity : BaseActivity(), FollowersView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityComponent.inject(this)
+        with(followersPresenter) {
+            attachView(this@FollowersActivity)
+            initialize()
+        }
+    }
+
+    override fun onDestroy() {
+        followersPresenter.destroy()
+        super.onDestroy()
+    }
+
+    override fun initUi() {
         followersAdapter.itemClick = {
             navigator.navigateToGithubUser(it)
         }
         FollowersActivityUI(followersAdapter).setContentView(this)
-        with(followersPresenter) {
-            view = this@FollowersActivity
-            init()
-        }
     }
 
-    override fun showFollowers(list: List<Follower>) {
+    override fun showFollowers(followerList: List<Follower>) {
         with(followersAdapter) {
-            this.list = list
+            this.followerList = followerList
             notifyDataSetChanged()
         }
     }
 
-    override fun showError(exception: Exception) {
+    override fun onError(exception: Exception) {
         toast(ErrorMessageFactory.create(this, exception))
     }
 }

@@ -1,9 +1,8 @@
 package com.example.app.presentation.ui.github.views
 
+import com.example.app.presentation.ui.base.View
 import com.example.app.presentation.ui.github.model.Follower
 
-
-interface FollowersView {
-    fun showFollowers(list: List<Follower>)
-    fun showError(exception: Exception)
+interface FollowersView : View {
+    fun showFollowers(followerList: List<Follower>)
 }

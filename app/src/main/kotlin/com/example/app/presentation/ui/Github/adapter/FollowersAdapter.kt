@@ -19,7 +19,7 @@ class FollowersAdapter
 constructor(private val imageLoader: ImageLoader) :
         RecyclerView.Adapter<FollowersAdapter.ViewHolder>() {
 
-    var list: List<Follower> = emptyList()
+    var followerList: List<Follower> = emptyList()
     var itemClick: ((Follower) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,10 +30,10 @@ constructor(private val imageLoader: ImageLoader) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(list[position], imageLoader)
+        holder.bind(followerList[position], imageLoader)
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = followerList.size
 
     class ViewHolder(itemView: View, val itemClick: (Follower) -> Unit) : RecyclerView.ViewHolder(itemView) {
 
@@ -43,7 +43,7 @@ constructor(private val imageLoader: ImageLoader) :
         fun bind(follower: Follower, imageLoader: ImageLoader) {
             with(follower) {
                 name.text = login
-                avatar_url?.let {
+                avatar_url.let {
                     imageLoader.loadImage(it, avatarImage)
                 }
                 itemView.setOnClickListener { itemClick(this) }

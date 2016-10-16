@@ -1,6 +1,5 @@
 package com.example.app.domain.interactor.github
 
-import android.support.annotation.NonNull
 import com.example.app.domain.exception.InvalidUsernameException
 import com.example.app.domain.executor.PostExecutionThread
 import com.example.app.domain.executor.ThreadExecutor
@@ -26,7 +25,7 @@ constructor(
 
      * @param username - username for the user
      */
-    fun init(@NonNull username: String): RetrieveFollowersUseCase {
+    fun init(username: String): RetrieveFollowersUseCase {
         this.username = username
         return this
     }

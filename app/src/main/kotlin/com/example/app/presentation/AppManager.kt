@@ -24,31 +24,12 @@ constructor(
         private val DEBUG = "debug"
         private val STAGE = "stage"
         private val RELEASE = "release"
-
-        private fun enableStrictMode() {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-                StrictMode.setVmPolicy(
-                        StrictMode.VmPolicy.Builder()
-                                .detectAll()
-                                .penaltyLog()
-                                .build()
-                )
-                StrictMode.setThreadPolicy(
-                        StrictMode.ThreadPolicy.Builder()
-                                .detectAll()
-                                .penaltyLog()
-                                .penaltyDeathOnNetwork()
-                                .build()
-                )
-            }
-        }
     }
 
     fun init() {
 
         initLeakCanary()
         initFresco()
-
         when (BuildConfig.BUILD_TYPE) {
             DEBUG -> {
                 initTimber(Timber.DebugTree())
@@ -79,5 +60,23 @@ constructor(
     //TODO: fix checkParameterIsNotNull in tag with proguard
     private fun initTimber(tree: Timber.Tree) {
         Timber.plant(tree)
+    }
+
+    private fun enableStrictMode() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            StrictMode.setVmPolicy(
+                    StrictMode.VmPolicy.Builder()
+                            .detectAll()
+                            .penaltyLog()
+                            .build()
+            )
+            StrictMode.setThreadPolicy(
+                    StrictMode.ThreadPolicy.Builder()
+                            .detectAll()
+                            .penaltyLog()
+                            .penaltyDeathOnNetwork()
+                            .build()
+            )
+        }
     }
 }

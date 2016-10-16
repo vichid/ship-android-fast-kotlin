@@ -6,20 +6,18 @@ import com.example.app.BuildConfig
 import com.example.app.data.net.github.GithubService
 import com.example.app.data.net.interceptor.UserAgentInterceptor
 import com.example.app.domain.executor.ThreadExecutor
-import com.example.app.presentation.di.qualifiers.ClientCache
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory
 import com.facebook.imagepipeline.core.ImagePipelineConfig
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
-import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import rx.schedulers.Schedulers
-import java.io.File
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -60,12 +58,12 @@ class ApiModule {
     @Provides
     @Singleton
     internal fun provideOkHttpClient(
-            @ClientCache cache: Cache,
             @Named("userAgent") userAgentValue: String
     ): OkHttpClient {
         return OkHttpClient.Builder()
+                .connectTimeout(CONNECT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .readTimeout(READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)
                 .addNetworkInterceptor(UserAgentInterceptor(userAgentValue))
-                .cache(cache)
                 .build()
     }
 
@@ -78,20 +76,6 @@ class ApiModule {
         return OkHttpImagePipelineConfigFactory
                 .newBuilder(context, okHttpClient)
                 .build();
-    }
-
-    @Provides
-    @Singleton
-    @ClientCache
-    internal fun provideCache(@ClientCache path: File): Cache {
-        return Cache(path, CACHE_SIZE_20MB.toLong())
-    }
-
-    @Singleton
-    @Provides
-    @ClientCache
-    internal fun provideCacheFile(context: Context): File {
-        return File(context.cacheDir, "http_response_cache")
     }
 
     @Provides
@@ -117,6 +101,7 @@ class ApiModule {
     }
 
     companion object {
-        private val CACHE_SIZE_20MB = 20 * 1024 * 1024
+        private val CONNECT_TIMEOUT_SECONDS: Long = 60;
+        private val READ_TIMEOUT_SECONDS: Long = 60;
     }
 }

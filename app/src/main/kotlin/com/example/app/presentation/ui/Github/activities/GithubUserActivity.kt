@@ -25,21 +25,30 @@ class GithubUserActivity : BaseActivity(), GithubUserView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        GithubUserActivityUI().setContentView(this)
         activityComponent.inject(this)
         with(githubUserPresenter) {
-            view = this@GithubUserActivity
-            init(intent.extras.getParcelable<Follower>("follower"))
+            attachView(this@GithubUserActivity)
+            initialize()
+            loadGithubUser(intent.extras.getParcelable<Follower>("follower"))
         }
     }
 
-    override fun renderView(githubUser: GithubUser) {
+    override fun onDestroy() {
+        githubUserPresenter.destroy()
+        super.onDestroy()
+    }
+
+    override fun showGithubUser(githubUser: GithubUser) {
         githubUser.avatarUrl?.let {
             imageLoader.loadImage(githubUser.avatarUrl, userImage)
         }
     }
 
-    override fun showError(exception: Exception) {
+    override fun initUi() {
+        GithubUserActivityUI().setContentView(this)
+    }
+
+    override fun onError(exception: Exception) {
         toast(ErrorMessageFactory.create(this, exception))
     }
 }
