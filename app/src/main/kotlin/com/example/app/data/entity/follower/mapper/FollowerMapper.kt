@@ -1,7 +1,7 @@
-package com.example.app.data.entity.github.mapper
+package com.example.app.data.entity.follower.mapper
 
 import com.example.app.data.entity.base.BaseMapper
-import com.example.app.data.entity.github.FollowerEntity
+import com.example.app.data.entity.follower.FollowerEntity
 import com.example.app.domain.model.github.FollowerDomain
 import javax.inject.Inject
 import javax.inject.Singleton

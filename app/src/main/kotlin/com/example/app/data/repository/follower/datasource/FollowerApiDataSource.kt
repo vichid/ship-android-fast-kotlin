@@ -1,6 +1,6 @@
 package com.example.app.data.repository.follower.datasource
 
-import com.example.app.data.entity.github.FollowerEntity
+import com.example.app.data.entity.follower.FollowerEntity
 import com.example.app.data.exception.DataSourceFunctionException
 import com.example.app.data.repository.follower.api.FollowerApi
 import rx.Observable

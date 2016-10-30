@@ -52,32 +52,34 @@ ext {
   espressoVersion = '2.2.1'
   testingRunnerVersion = '0.4.1'
 
-  presentationDependencies = [
-      daggerCompiler     : "com.google.dagger:dagger-compiler:${daggerVersion}",
-      dagger             : "com.google.dagger:dagger:${daggerVersion}",
-      support            : "com.android.support:support-v4:${supportVersion}",
-      supportAppCompat   : "com.android.support:appcompat-v7:${supportVersion}",
-      supportRecyclerView: "com.android.support:recyclerview-v7:${supportVersion}",
-      supportCardView    : "com.android.support:cardview-v7:${supportVersion}",
-      supportDesign      : "com.android.support:design:${supportVersion}",
-      rxJava             : "io.reactivex:rxjava:${rxJavaVersion}",
-      rxAndroid          : "io.reactivex:rxandroid:${rxAndroidVersion}",
-      javaxAnnotation    : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-      fresco             : "com.facebook.fresco:fresco:${frescoVersion}",
-      frescoOkhttp       : "com.facebook.fresco:imagepipeline-okhttp3:${frescoVersion}",
-      rxKotlin           : "io.reactivex:rxkotlin:${rxKotlinVersion}",
-      ankoSdk            : "org.jetbrains.anko:anko-sdk15:${ankoVersion}",
-      ankoSupport        : "org.jetbrains.anko:anko-support-v4:${ankoVersion}",
-      ankoAppcompat      : "org.jetbrains.anko:anko-appcompat-v7:${ankoVersion}",
-      ankoDesign         : "org.jetbrains.anko:anko-design:${ankoVersion}",
-      ankoRecyclerview   : "org.jetbrains.anko:anko-recyclerview-v7:${ankoVersion}",
-      ankoCards          : "org.jetbrains.anko:anko-cardview-v7:${ankoVersion}",
-      leakcanaryDebug    : "com.squareup.leakcanary:leakcanary-android:${leakcanaryVersion}",
-      leakcanaryRelease  : "com.squareup.leakcanary:leakcanary-android-no-op:${leakcanaryVersion}",
-      timber             : "com.jakewharton.timber:timber:${timberVersion}",
+  appDependencies = [
+      daggerCompiler          : "com.google.dagger:dagger-compiler:${daggerVersion}",
+      dagger                  : "com.google.dagger:dagger:${daggerVersion}",
+      support                 : "com.android.support:support-v4:${supportVersion}",
+      supportAppCompat        : "com.android.support:appcompat-v7:${supportVersion}",
+      supportRecyclerView     : "com.android.support:recyclerview-v7:${supportVersion}",
+      supportCardView         : "com.android.support:cardview-v7:${supportVersion}",
+      supportDesign           : "com.android.support:design:${supportVersion}",
+      rxJava                  : "io.reactivex:rxjava:${rxJavaVersion}",
+      rxAndroid               : "io.reactivex:rxandroid:${rxAndroidVersion}",
+      javaxAnnotation         : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+      fresco                  : "com.facebook.fresco:fresco:${frescoVersion}",
+      frescoOkhttp            : "com.facebook.fresco:imagepipeline-okhttp3:${frescoVersion}",
+      rxKotlin                : "io.reactivex:rxkotlin:${rxKotlinVersion}",
+      ankoCommon              : "org.jetbrains.anko:anko-common:${ankoVersion}",
+      leakcanaryDebug         : "com.squareup.leakcanary:leakcanary-android:${leakcanaryVersion}",
+      leakcanaryRelease       : "com.squareup.leakcanary:leakcanary-android-no-op:${leakcanaryVersion}",
+      timber                  : "com.jakewharton.timber:timber:${timberVersion}",
+      retrofit2               : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+      retrofit2MoshiConverter : "com.squareup.retrofit2:converter-moshi:${retrofitVersion}",
+      retrofit2RxAdapter      : "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}",
+      supportAnnotations      : "com.android.support:support-annotations:${supportVersion}",
+      okHttpLoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
+      moshi                   : "com.squareup.moshi:moshi:${moshiVersion}",
   ]
 
-  presentationTestDependencies = [
+  appTestDependencies = [
+      junit             : "junit:junit:${jUnitVersion}",
       mockito           : "org.mockito:mockito-core:${mockitoVersion}",
       dexmaker          : "com.google.dexmaker:dexmaker:${dexmakerVersion}",
       dexmakerMockito   : "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}",
@@ -85,39 +87,6 @@ ext {
       espressoIntents   : "com.android.support.test.espresso:espresso-intents:${espressoVersion}",
       testingRunner     : "com.android.support.test:runner:${testingRunnerVersion}",
       testingRules      : "com.android.support.test:rules:${testingRunnerVersion}",
-      supportAnnotations: "com.android.support:support-annotations:${supportVersion}"
-  ]
-
-  domainDependencies = [
-      daggerCompiler : "com.google.dagger:dagger-compiler:${daggerVersion}",
-      dagger         : "com.google.dagger:dagger:${daggerVersion}",
-      javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-      rxJava         : "io.reactivex:rxjava:${rxJavaVersion}"
-  ]
-
-  domainTestDependencies = [
-      junit  : "junit:junit:${jUnitVersion}",
-      mockito: "org.mockito:mockito-core:${mockitoVersion}"
-  ]
-
-  dataDependencies = [
-      daggerCompiler          : "com.google.dagger:dagger-compiler:${daggerVersion}",
-      dagger                  : "com.google.dagger:dagger:${daggerVersion}",
-      retrofit2               : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
-      retrofit2MoshiConverter : "com.squareup.retrofit2:converter-moshi:${retrofitVersion}",
-      retrofit2RxAdapter      : "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}",
-      rxJava                  : "io.reactivex:rxjava:${rxJavaVersion}",
-      rxAndroid               : "io.reactivex:rxandroid:${rxAndroidVersion}",
-      javaxAnnotation         : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-      supportAnnotations      : "com.android.support:support-annotations:${supportVersion}",
-      okHttpLoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
-      moshi                   : "com.squareup.moshi:moshi:${moshiVersion}",
-  ]
-
-  dataTestDependencies = [
-      junit             : "junit:junit:${jUnitVersion}",
-      assertj           : "org.assertj:assertj-core:${assertJVersion}",
-      mockito           : "org.mockito:mockito-core:${mockitoVersion}",
       supportAnnotations: "com.android.support:support-annotations:${supportVersion}"
   ]
 }

@@ -1,7 +1,7 @@
 package com.example.app.data.repository.follower
 
-import com.example.app.data.entity.github.FollowerEntity
-import com.example.app.data.entity.github.mapper.FollowerMapper
+import com.example.app.data.entity.follower.FollowerEntity
+import com.example.app.data.entity.follower.mapper.FollowerMapper
 import com.example.app.data.repository.base.BaseRepository
 import com.example.app.data.repository.follower.datasource.FollowerDataSource
 import com.example.app.domain.model.github.FollowerDomain

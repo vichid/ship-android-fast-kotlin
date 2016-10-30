@@ -19,6 +19,8 @@ constructor(
 
     override fun initialize() {
         super.initialize()
+        view?.showLoading()
+        view?.hideRetry()
         subscriptions.add(
                 retrieveUserFollowersByIdUseCase.init("vichid").execute()
                         .subscribe(
@@ -34,10 +36,12 @@ constructor(
     }
 
     fun onRetrieveFollowersComplete() {
-        //no-op
+        view?.hideLoading()
     }
 
     fun onError(throwable: Throwable) {
+        view?.hideLoading()
+        view?.showRetry()
         view?.onError(DefaultErrorBundle(throwable as Exception).exception)
     }
 }

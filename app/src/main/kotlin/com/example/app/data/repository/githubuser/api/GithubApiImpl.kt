@@ -1,6 +1,6 @@
 package com.example.app.data.repository.githubuser.api
 
-import com.example.app.data.entity.github.GithubUserEntity
+import com.example.app.data.entity.githubuser.GithubUserEntity
 import rx.Observable
 import javax.inject.Inject
 import javax.inject.Singleton

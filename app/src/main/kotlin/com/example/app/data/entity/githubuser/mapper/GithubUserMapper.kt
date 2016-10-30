@@ -1,7 +1,7 @@
-package com.example.app.data.entity.github.mapper
+package com.example.app.data.entity.githubuser.mapper
 
 import com.example.app.data.entity.base.BaseMapper
-import com.example.app.data.entity.github.GithubUserEntity
+import com.example.app.data.entity.githubuser.GithubUserEntity
 import com.example.app.domain.model.github.GithubUserDomain
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -1,4 +1,4 @@
-package com.example.app.data.entity.github
+package com.example.app.data.entity.follower
 
 import com.example.app.data.repository.base.Identifiable
 

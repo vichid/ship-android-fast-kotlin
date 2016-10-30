@@ -72,7 +72,6 @@ android {
       def type = rootProject.ext.stage
       applicationIdSuffix '.stage'
       buildConfigField "String", "API_URL", type.apiUrl
-      //TODO: fix anko version to allow minification
       minifyEnabled true
       debuggable true
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro',
@@ -107,58 +106,52 @@ android {
 }
 
 dependencies {
-  def presentationDependencies = rootProject.ext.presentationDependencies
-  def presentationTestDependencies = rootProject.ext.presentationTestDependencies
-  def dataDependencies = rootProject.ext.dataDependencies
+  def appDependencies = rootProject.ext.appDependencies
+  def appTestDependencies = rootProject.ext.appTestDependencies
 
   compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-  kapt presentationDependencies.daggerCompiler
-  compile presentationDependencies.dagger
+  kapt appDependencies.daggerCompiler
+  compile appDependencies.dagger
 
-  compile presentationDependencies.supportRecyclerView
-  compile presentationDependencies.supportCardView
-  compile presentationDependencies.supportDesign
-  compile presentationDependencies.supportAppCompat
-  compile presentationDependencies.support
+  compile appDependencies.supportRecyclerView
+  compile appDependencies.supportCardView
+  compile appDependencies.supportDesign
+  compile appDependencies.supportAppCompat
+  compile appDependencies.support
 
-  compile presentationDependencies.fresco
-  compile presentationDependencies.frescoOkhttp
+  compile appDependencies.fresco
+  compile appDependencies.frescoOkhttp
 
-  compile presentationDependencies.timber
+  compile appDependencies.timber
 
-  compile presentationDependencies.rxJava
-  compile presentationDependencies.rxAndroid
-  compile presentationDependencies.rxKotlin
+  compile appDependencies.rxJava
+  compile appDependencies.rxAndroid
+  compile appDependencies.rxKotlin
 
-  compile presentationDependencies.ankoSdk
-  compile presentationDependencies.ankoSupport
-  compile presentationDependencies.ankoAppcompat
-  compile presentationDependencies.ankoDesign
-  compile presentationDependencies.ankoRecyclerview
-  compile presentationDependencies.ankoCards
+  compile appDependencies.ankoCommon
 
-  debugCompile presentationDependencies.leakcanaryDebug
-  stageCompile presentationDependencies.leakcanaryRelease
-  releaseCompile presentationDependencies.leakcanaryRelease
+  debugCompile appDependencies.leakcanaryDebug
+  stageCompile appDependencies.leakcanaryRelease
+  releaseCompile appDependencies.leakcanaryRelease
 
-  provided presentationDependencies.javaxAnnotation
+  provided appDependencies.javaxAnnotation
 
-  compile dataDependencies.retrofit2
-  compile dataDependencies.retrofit2MoshiConverter
-  compile dataDependencies.retrofit2RxAdapter
-  compile dataDependencies.supportAnnotations
-  compile dataDependencies.okHttpLoggingInterceptor
-  compile dataDependencies.moshi
+  compile appDependencies.retrofit2
+  compile appDependencies.retrofit2MoshiConverter
+  compile appDependencies.retrofit2RxAdapter
+  compile appDependencies.supportAnnotations
+  compile appDependencies.okHttpLoggingInterceptor
+  compile appDependencies.moshi
 
-  androidTestCompile presentationTestDependencies.mockito
-  androidTestCompile presentationTestDependencies.dexmaker
-  androidTestCompile presentationTestDependencies.dexmakerMockito
-  androidTestCompile presentationTestDependencies.espresso
-  androidTestCompile presentationTestDependencies.espressoIntents
-  androidTestCompile presentationTestDependencies.testingRunner
-  androidTestCompile presentationTestDependencies.testingRules
-  androidTestCompile presentationTestDependencies.supportAnnotations
+  androidTestCompile appTestDependencies.mockito
+  androidTestCompile appTestDependencies.dexmaker
+  androidTestCompile appTestDependencies.dexmakerMockito
+  androidTestCompile appTestDependencies.espresso
+  androidTestCompile appTestDependencies.espressoIntents
+  androidTestCompile appTestDependencies.testingRunner
+  androidTestCompile appTestDependencies.testingRules
+  androidTestCompile appTestDependencies.supportAnnotations
 }
 
 kapt {

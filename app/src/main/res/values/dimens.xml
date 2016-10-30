@@ -19,4 +19,6 @@
     <dimen name="spacing_small">6dp</dimen>
     <dimen name="spacing_xsmall">4dp</dimen>
     <dimen name="spacing_xxsmall">2dp</dimen>
+    <dimen name="avatar_image_size">45dp</dimen>
+    <dimen name="avatar_image_detail_size">400dp</dimen>
 </resources>

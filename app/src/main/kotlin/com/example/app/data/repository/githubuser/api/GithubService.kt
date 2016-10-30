@@ -1,6 +1,6 @@
 package com.example.app.data.repository.githubuser.api
 
-import com.example.app.data.entity.github.GithubUserEntity
+import com.example.app.data.entity.githubuser.GithubUserEntity
 import retrofit2.http.GET
 import retrofit2.http.Path
 import rx.Observable

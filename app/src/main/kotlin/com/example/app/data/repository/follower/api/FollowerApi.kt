@@ -1,6 +1,6 @@
 package com.example.app.data.repository.follower.api
 
-import com.example.app.data.entity.github.FollowerEntity
+import com.example.app.data.entity.follower.FollowerEntity
 import rx.Observable
 
 /**
