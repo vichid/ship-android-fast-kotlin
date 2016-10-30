@@ -3,8 +3,11 @@ package com.example.app.presentation.di.modules
 import android.content.Context
 import android.os.Build
 import com.example.app.BuildConfig
-import com.example.app.data.net.github.GithubService
-import com.example.app.data.net.interceptor.UserAgentInterceptor
+import com.example.app.data.repository.base.api.interceptor.UserAgentInterceptor
+import com.example.app.data.repository.follower.api.FollowerApi
+import com.example.app.data.repository.follower.api.FollowerApiImpl
+import com.example.app.data.repository.follower.api.FollowerService
+import com.example.app.data.repository.githubuser.api.GithubService
 import com.example.app.domain.executor.ThreadExecutor
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory
 import com.facebook.imagepipeline.core.ImagePipelineConfig
@@ -29,8 +32,20 @@ class ApiModule {
 
     @Provides
     @Singleton
+    internal fun provideFollowersApi(followerService: FollowerService): FollowerApi {
+        return FollowerApiImpl(followerService)
+    }
+
+    @Provides
+    @Singleton
     internal fun provideGithubService(retrofit: Retrofit): GithubService {
         return retrofit.create(GithubService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideFollowersService(retrofit: Retrofit): FollowerService {
+        return retrofit.create(FollowerService::class.java)
     }
 
     @Provides

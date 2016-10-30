@@ -11,7 +11,7 @@ class FollowerMapper
 @Inject
 constructor() : BaseMapper<FollowerEntity, FollowerDomain>() {
 
-    override fun map(from: List<FollowerEntity>): List<FollowerDomain> {
+    override fun map(from: Collection<FollowerEntity>): Collection<FollowerDomain> {
         return from.map { map(it) }
     }
 

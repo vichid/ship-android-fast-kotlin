@@ -1,7 +1,9 @@
 package com.example.app.presentation.di.modules
 
-import com.example.app.data.repository.github.GithubDataRepository
-import com.example.app.domain.repository.GithubRepository
+import com.example.app.data.repository.follower.FollowerDataRepository
+import com.example.app.data.repository.githubuser.GithubUserDataRepository
+import com.example.app.domain.repository.FollowerRepository
+import com.example.app.domain.repository.GithubUserRepository
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -15,8 +17,18 @@ class DataModule {
 
     @Provides
     @Singleton
-    internal fun provideGithubRepository(githubDataRepository: GithubDataRepository): GithubRepository {
-        return githubDataRepository
+    internal fun provideGithubUserRepository(
+            githubUserDataRepository: GithubUserDataRepository
+    ): GithubUserRepository {
+        return githubUserDataRepository
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideFollowerRepository(
+            followerDataRepository: FollowerDataRepository
+    ): FollowerRepository {
+        return followerDataRepository
     }
 
     @Provides

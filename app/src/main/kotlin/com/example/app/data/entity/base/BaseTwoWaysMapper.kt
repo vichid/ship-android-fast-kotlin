@@ -5,5 +5,5 @@ abstract class BaseTwoWaysMapper<From, To> : BaseMapper<From, To>() {
 
     abstract fun inverseMap(from: To): From
 
-    abstract fun inverseMap(from: List<To>): List<From>
+    abstract fun inverseMap(from: Collection<To>): Collection<From>
 }

@@ -18,7 +18,7 @@ constructor() : BaseMapper<FollowerDomain, Follower>() {
         )
     }
 
-    override fun map(from: List<FollowerDomain>): List<Follower> {
+    override fun map(from: Collection<FollowerDomain>): Collection<Follower> {
         return from.map { map(it) }
     }
 }

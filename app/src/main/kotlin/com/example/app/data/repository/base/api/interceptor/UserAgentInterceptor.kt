@@ -1,4 +1,4 @@
-package com.example.app.data.net.interceptor
+package com.example.app.data.repository.base.api.interceptor
 
 import okhttp3.Interceptor
 import okhttp3.Response

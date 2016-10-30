@@ -20,7 +20,7 @@ constructor() : BaseMapper<GithubUserDomain, GithubUser>() {
         )
     }
 
-    override fun map(from: List<GithubUserDomain>): List<GithubUser> {
+    override fun map(from: Collection<GithubUserDomain>): Collection<GithubUser> {
         return from.map { map(it) }
     }
 }

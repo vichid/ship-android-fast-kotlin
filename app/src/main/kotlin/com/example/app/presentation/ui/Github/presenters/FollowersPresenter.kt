@@ -1,7 +1,7 @@
 package com.example.app.presentation.ui.github.presenters
 
 import com.example.app.domain.exception.DefaultErrorBundle
-import com.example.app.domain.interactor.github.RetrieveFollowersUseCase
+import com.example.app.domain.interactor.github.RetrieveUserFollowersByIdUseCase
 import com.example.app.domain.model.github.FollowerDomain
 import com.example.app.presentation.di.scopes.PerActivity
 import com.example.app.presentation.ui.base.BasePresenter
@@ -13,14 +13,14 @@ import javax.inject.Inject
 class FollowersPresenter
 @Inject
 constructor(
-        private val retrieveFollowersUseCase: RetrieveFollowersUseCase,
+        private val retrieveUserFollowersByIdUseCase: RetrieveUserFollowersByIdUseCase,
         private val followerMapper: FollowerMapper
 ) : BasePresenter<FollowersView>() {
 
     override fun initialize() {
         super.initialize()
         subscriptions.add(
-                retrieveFollowersUseCase.init("vichid").execute()
+                retrieveUserFollowersByIdUseCase.init("vichid").execute()
                         .subscribe(
                                 { onFollowersReceived(it) },
                                 { onError(it) },
@@ -29,7 +29,7 @@ constructor(
         )
     }
 
-    fun onFollowersReceived(follwerDomainList: List<FollowerDomain>) {
+    fun onFollowersReceived(follwerDomainList: Collection<FollowerDomain>) {
         view?.showFollowers(followerMapper.map(follwerDomainList))
     }
 

@@ -43,9 +43,9 @@ class FollowersActivity : BaseActivity(), FollowersView {
         FollowersActivityUI(followersAdapter).setContentView(this)
     }
 
-    override fun showFollowers(followerList: List<Follower>) {
+    override fun showFollowers(followerList: Collection<Follower>) {
         with(followersAdapter) {
-            this.followerList = followerList
+            this.followerList = followerList.toList()
             notifyDataSetChanged()
         }
     }
