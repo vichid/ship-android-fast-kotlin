@@ -12,14 +12,18 @@
     android:icon="@mipmap/ic_launcher"
     android:label="@string/app_name"
     android:theme="@style/AppTheme">
-    <activity android:name=".presentation.ui.github.activities.FollowersActivity">
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN" />
-        <category android:name="android.intent.category.LAUNCHER" />
-      </intent-filter>
-    </activity>
+    <activity android:name=".presentation.ui.github.activities.FollowersActivity"/>
     <activity android:name=".presentation.ui.github.activities.GithubUserActivity" />
-  </application>
 
+    <activity-alias
+        android:name=".Launcher"
+        android:label="@string/app_name"
+        android:targetActivity=".presentation.ui.github.activities.FollowersActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity-alias>
+  </application>
 
 </manifest>
