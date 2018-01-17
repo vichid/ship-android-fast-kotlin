@@ -15,8 +15,8 @@ class RetrieveUserRepositoriesUseCase
 @Inject
 constructor(
     appSchedulers: AppSchedulers,
-    @Named("UserRepositoriesStore")
-    private val userRepositoriesStore: Store<List<GHRepository>, String>
+    @Named(RETRIEVE_USER_REPOSITORIES_STORE)
+    private val retrieveUserRepositoriesStore: Store<List<GHRepository>, String>
 ) : SingleUseCase<List<GHRepository>, RetrieveUserRepositoriesUseCase.Params>(appSchedulers) {
 
     override fun validate(params: Params?): Completable = params?.let {
@@ -25,10 +25,14 @@ constructor(
 
     override fun buildUseCaseObservable(params: Params?, fresh: Boolean): Single<List<GHRepository>> =
         if (fresh) {
-            userRepositoriesStore.fetch(params!!.login)
+            retrieveUserRepositoriesStore.fetch(params!!.login)
         } else {
-            userRepositoriesStore.get(params!!.login)
+            retrieveUserRepositoriesStore.get(params!!.login)
         }
 
     data class Params(val login: String)
+
+    companion object {
+        const val RETRIEVE_USER_REPOSITORIES_STORE: String = "RETRIEVE_USER_REPOSITORIES_STORE"
+    }
 }

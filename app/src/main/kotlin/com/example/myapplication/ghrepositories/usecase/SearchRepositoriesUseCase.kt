@@ -15,7 +15,7 @@ class SearchRepositoriesUseCase
 @Inject
 constructor(
     appSchedulers: AppSchedulers,
-    @Named("SearchRepositoriesStore")
+    @Named(SEARCH_REPOSITORIES_STORE)
     private val searchRepositoriesStore: Store<GHSearchResponse, Params>
 ) : SingleUseCase<GHSearchResponse, SearchRepositoriesUseCase.Params>(appSchedulers) {
 
@@ -34,4 +34,8 @@ constructor(
         }
 
     data class Params(val q: String, val page: Int, val sort: String, val ord: String)
+
+    companion object {
+        const val SEARCH_REPOSITORIES_STORE: String = "SEARCH_REPOSITORIES_STORE"
+    }
 }

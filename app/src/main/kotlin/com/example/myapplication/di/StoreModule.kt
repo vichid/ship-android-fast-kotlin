@@ -5,7 +5,9 @@ import com.example.myapplication.data.api.GithubService
 import com.example.myapplication.ghrepositories.model.GHRepository
 import com.example.myapplication.ghrepositories.model.GHSearchResponse
 import com.example.myapplication.ghrepositories.usecase.RetrieveUserRepositoriesUseCase
+import com.example.myapplication.ghrepositories.usecase.RetrieveUserRepositoriesUseCase.Companion.RETRIEVE_USER_REPOSITORIES_STORE
 import com.example.myapplication.ghrepositories.usecase.SearchRepositoriesUseCase
+import com.example.myapplication.ghrepositories.usecase.SearchRepositoriesUseCase.Companion.SEARCH_REPOSITORIES_STORE
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.nytimes.android.external.fs3.FileSystemRecordPersister
@@ -26,7 +28,7 @@ class StoreModule {
 
     @Provides
     @Singleton
-    @Named("UserRepositoriesStore")
+    @Named(RETRIEVE_USER_REPOSITORIES_STORE)
     internal fun provideUserRepositoriesStore(
         context: Context,
         gson: Gson,
@@ -36,7 +38,7 @@ class StoreModule {
             .fetcher { githubService.fetchUserRepositories(it.login).map(ResponseBody::source) }
             .persister(FileSystemRecordPersister.create(
                 FileSystemFactory.create(context.cacheDir),
-                { "UserRepositoriesStore" + "_" + it },
+                { RETRIEVE_USER_REPOSITORIES_STORE + "_" + it },
                 5,
                 TimeUnit.HOURS
             ))
@@ -46,7 +48,7 @@ class StoreModule {
 
     @Provides
     @Singleton
-    @Named("SearchRepositoriesStore")
+    @Named(SEARCH_REPOSITORIES_STORE)
     internal fun provideSearchRepositoriesStore(
         context: Context,
         gson: Gson,
@@ -56,7 +58,7 @@ class StoreModule {
             .fetcher { githubService.searchRepositories(it.q, it.page, it.sort, it.ord).map(ResponseBody::source) }
             .persister(FileSystemRecordPersister.create(
                 FileSystemFactory.create(context.cacheDir),
-                { "SearchRepositoriesStore" + "_" + it },
+                { SEARCH_REPOSITORIES_STORE + "_" + it },
                 5,
                 TimeUnit.HOURS
             ))
