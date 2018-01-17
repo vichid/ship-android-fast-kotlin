@@ -3,6 +3,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'shot'
+apply plugin: "de.mannodermaus.android-junit5"
+
+configurations {
+    ktlint
+}
 
 android {
     compileSdkVersion 27
@@ -70,6 +75,14 @@ android {
     }
 }
 
+junitPlatform {
+    filters {
+        engines {
+            include 'spek'
+        }
+    }
+}
+
 ext {
     support = '27.0.2'
     constraint = '1.0.2'
@@ -97,12 +110,15 @@ ext {
     dexmaker = '2.12.1'
     barista = '2.2.0'
     RESTMock = '0.2.2'
+    spek = '1.1.5'
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:1.2.10"
+
+    ktlint 'com.github.shyiko:ktlint:0.11.1'
 
     implementation "com.android.support:appcompat-v7:$support"
     implementation "com.android.support:recyclerview-v7:$support"
@@ -149,15 +165,26 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
 
     implementation "com.jakewharton.threetenabp:threetenabp:$threetenabp"
+}
+
+dependencies {
 
     // Dependencies for local unit tests
     testImplementation "junit:junit:$junit"
     testImplementation "org.mockito:mockito-core:$mockito"
     testImplementation "com.nhaarman:mockito-kotlin:$mockitokotlin"
     testImplementation "org.amshove.kluent:kluent-android:$kluent"
-    testImplementation "org.jetbrains.spek:spek-api:1.1.0-beta3"
-    testImplementation "org.jetbrains.spek:spek-junit-platform-engine:1.1.0-beta3"
-    testImplementation "org.junit.platform:junit-platform-runner:1.0.0-M3"
+
+    testImplementation("org.jetbrains.spek:spek-api:$spek") {
+        exclude group: "org.jetbrains.kotlin"
+    }
+    testImplementation("org.jetbrains.spek:spek-junit-platform-engine:$spek") {
+        exclude group: "org.junit.platform"
+        exclude group: "org.jetbrains.kotlin"
+    }
+    testImplementation "org.jetbrains.kotlin:kotlin-reflect:1.2.10"
+    testImplementation "org.junit.platform:junit-platform-engine:1.0.1"
+
     testImplementation "com.github.andrzejchm.RESTMock:android:$RESTMock"
 
     // Android Testing Support Library's runner and rules
@@ -196,4 +223,18 @@ shot {
     appId = "com.example.myapplication"
     instrumentationTestTask = 'connectedMockDebugAndroidTest'
     packageTestApkTask = 'packageMockDebugAndroidTest'
+}
+
+task ktlint(type: JavaExec) {
+    main = "com.github.shyiko.ktlint.Main"
+    classpath = configurations.ktlint
+    args "src/**/*.kt"
+}
+
+check.dependsOn ktlint
+
+task ktlintFormat(type: JavaExec) {
+    main = "com.github.shyiko.ktlint.Main"
+    classpath = configurations.ktlint
+    args "-F", "src/**/*.kt"
 }
