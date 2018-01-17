@@ -1,0 +1,199 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'shot'
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion "27.0.1"
+    defaultConfig {
+        applicationId "com.example.myapplication"
+        minSdkVersion 16
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguardTest-rules.pro'
+        }
+
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguardTest-rules.pro'
+        }
+    }
+
+    flavorDimensions 'tier'
+    productFlavors {
+        mock {
+            dimension "tier"
+            applicationIdSuffix = ".mock"
+            buildConfigField "String", "GITHUB_URL", '"https://api.github.com/"'
+        }
+        prod {
+            dimension "tier"
+            buildConfigField "String", "GITHUB_URL", '"https://api.github.com/"'
+        }
+    }
+
+    android.variantFilter { variant ->
+        if (variant.buildType.name == 'release'
+                && variant.getFlavors().get(0).name == 'mock') {
+            variant.setIgnore(true)
+        }
+    }
+
+    testOptions.unitTests.all {
+        testLogging {
+            events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+        }
+    }
+
+    sourceSets {
+        main.java.srcDirs = ['src/main/kotlin']
+        test.java.srcDirs = ['src/test/kotlin']
+        androidTest.java.srcDirs = ['src/androidTest/kotlin']
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+    }
+}
+
+ext {
+    support = '27.0.2'
+    constraint = '1.0.2'
+    arch = '1.0.0'
+    retrofit = '2.3.0'
+    okhttp = '3.6.0'
+    dagger = '2.12'
+    glide = '4.4.0'
+    leakcanary = '1.5.4'
+    anko = '0.10.2'
+    timber = '4.6.0'
+    rxjava = '2.1.7'
+    rxandroid = '2.0.1'
+    rxkotlin = '2.2.0'
+    rxlint = '1.6'
+    store = '3.0.0-beta'
+    threetenabp = '1.0.5'
+
+    junit = '4.12'
+    mockito = '2.8.47'
+    mockitokotlin = '1.5.0'
+    kluent = '1.34'
+    runner = '1.0.0'
+    espresso = '3.0.1'
+    dexmaker = '2.12.1'
+    barista = '2.2.0'
+    RESTMock = '0.2.2'
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    implementation "com.android.support:appcompat-v7:$support"
+    implementation "com.android.support:recyclerview-v7:$support"
+    implementation "com.android.support:cardview-v7:$support"
+    implementation "com.android.support:design:$support"
+    implementation "com.android.support:support-annotations:$support"
+    implementation "com.android.support.constraint:constraint-layout:$constraint"
+
+    implementation "com.nytimes.android:cache3:$store"
+    implementation "com.nytimes.android:store3:$store"
+    implementation "com.nytimes.android:store-kotlin3:$store"
+    implementation "com.nytimes.android:middleware3:$store"
+    implementation "com.nytimes.android:filesystem3:$store"
+
+    implementation "android.arch.lifecycle:extensions:$arch"
+    kapt "android.arch.lifecycle:compiler:$arch"
+
+    implementation "com.jakewharton.timber:timber:$timber"
+
+    implementation "com.github.bumptech.glide:glide:$glide"
+    implementation "com.github.bumptech.glide:okhttp3-integration:$glide"
+    implementation "com.github.bumptech.glide:recyclerview-integration:$glide"
+    kapt "com.github.bumptech.glide:compiler:$glide"
+
+    implementation "com.google.dagger:dagger-android:$dagger"
+    implementation "com.google.dagger:dagger-android-support:$dagger"
+    kapt "com.google.dagger:dagger-android-processor:$dagger"
+    kapt "com.google.dagger:dagger-compiler:$dagger"
+
+    implementation "org.jetbrains.anko:anko:$anko"
+
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rxkotlin"
+    implementation "nl.littlerobots.rxlint:rxlint:$rxlint"
+
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary"
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
+
+    implementation "com.jakewharton.threetenabp:threetenabp:$threetenabp"
+
+    // Dependencies for local unit tests
+    testImplementation "junit:junit:$junit"
+    testImplementation "org.mockito:mockito-core:$mockito"
+    testImplementation "com.nhaarman:mockito-kotlin:$mockitokotlin"
+    testImplementation "org.amshove.kluent:kluent-android:$kluent"
+    testImplementation "org.jetbrains.spek:spek-api:1.1.0-beta3"
+    testImplementation "org.jetbrains.spek:spek-junit-platform-engine:1.1.0-beta3"
+    testImplementation "org.junit.platform:junit-platform-runner:1.0.0-M3"
+    testImplementation "com.github.andrzejchm.RESTMock:android:$RESTMock"
+
+    // Android Testing Support Library's runner and rules
+    androidTestImplementation "com.android.support.test:runner:$runner"
+    androidTestImplementation "com.android.support.test:rules:$runner"
+
+    // Dependencies for Android unit tests
+    androidTestImplementation "junit:junit:$junit"
+    androidTestImplementation "org.mockito:mockito-core:$mockito"
+    androidTestImplementation "com.nhaarman:mockito-kotlin:$mockitokotlin"
+    androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:$dexmaker"
+    androidTestImplementation "com.github.andrzejchm.RESTMock:android:$RESTMock"
+
+    // Espresso UI Testing
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espresso"
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espresso"
+    androidTestImplementation "com.android.support.test.espresso:espresso-intents:$espresso"
+    androidTestImplementation "com.android.support.test.espresso.idling:idling-concurrent:$espresso"
+    //implementation "com.android.support.test.espresso:espresso-idling-resource:$espresso"
+
+    androidTestImplementation("com.schibsted.spain:barista:$barista") {
+        exclude group: 'com.android.support'
+        exclude group: 'org.jetbrains.kotlin' // Only if you already use Kotlin in your project
+    }
+
+    // Resolve conflicts between main and test APK:
+    androidTestImplementation "com.android.support:support-annotations:$support"
+    androidTestImplementation "com.android.support:support-v4:$support"
+    androidTestImplementation "com.android.support:recyclerview-v7:$support"
+    androidTestImplementation "com.android.support:appcompat-v7:$support"
+    androidTestImplementation "com.android.support:design:$support"
+    androidTestImplementation "com.google.code.findbugs:jsr305:3.0.1"
+}
+
+shot {
+    appId = "com.example.myapplication"
+    instrumentationTestTask = 'connectedMockDebugAndroidTest'
+    packageTestApkTask = 'packageMockDebugAndroidTest'
+}
