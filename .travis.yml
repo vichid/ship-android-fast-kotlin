@@ -3,8 +3,9 @@ language: android
 env:
   global:
     - ANDROID_API_LEVEL=27
-    - ANDROID_API_MIN_LEVEL=16
+    - ANDROID_API_LEVEL_22=22
     - ANDROID_BUILD_TOOLS_VERSION=27.0.1
+    - ADB_INSTALL_TIMEOUT=5
 
 android:
   components:
@@ -12,18 +13,18 @@ android:
     - platform-tools
     - build-tools-$ANDROID_BUILD_TOOLS_VERSION
     - android-$ANDROID_API_LEVEL
-    - android-$ANDROID_API_MIN_LEVEL
+    - android-$ANDROID_API_LEVEL_22
     - extra-android-m2repository
     - extra-google-m2repository
     - extra-android-support
     - sys-img-armeabi-v7a-google_apis-$ANDROID_API_LEVEL
-    - sys-img-armeabi-v7a-google_apis-$ANDROID_API_MIN_LEVEL
+    - sys-img-armeabi-v7a-google_apis-$ANDROID_API_LEVEL_22
 
 jdk:
   - oraclejdk8
 
 before_script:
-  - echo no | android create avd --force -n test -t android-27 --abi armeabi-v7a
+  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
   - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
