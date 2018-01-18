@@ -22,7 +22,7 @@ constructor(
     } ?: Completable.error(EmptyParams())
 
     override fun buildUseCaseObservable(params: Params?, fresh: Boolean):
-        Single<LoginResponse> = Single.just(LoginResponse(DUMMY_TOKEN, DUMMY_USER))
+        Single<LoginResponse> = Single.defer { Single.just(LoginResponse(DUMMY_TOKEN, DUMMY_USER)) }
 
     data class Params(val email: String, val password: String)
 

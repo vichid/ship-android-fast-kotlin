@@ -1,11 +1,11 @@
 package com.example.myapplication.base
 
-import com.example.myapplication.AppSchedulers
+import com.example.myapplication.ExecutionSchedulers
 import io.reactivex.Completable
 import io.reactivex.Single
 
 abstract class SingleUseCase<R, in Params>
-constructor(private val appSchedulers: AppSchedulers) {
+constructor(private val executionSchedulers: ExecutionSchedulers) {
 
     protected abstract fun buildUseCaseObservable(params: Params? = null, fresh: Boolean = false): Single<R>
 
@@ -13,6 +13,6 @@ constructor(private val appSchedulers: AppSchedulers) {
 
     fun execute(params: Params? = null, fresh: Boolean = false): Single<R> = validate(params)
         .andThen(buildUseCaseObservable(params, fresh)
-            .subscribeOn(appSchedulers.io)
-            .observeOn(appSchedulers.ui))
+            .subscribeOn(executionSchedulers.io())
+            .observeOn(executionSchedulers.ui()))
 }

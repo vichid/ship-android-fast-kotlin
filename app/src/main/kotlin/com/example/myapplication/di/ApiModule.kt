@@ -1,7 +1,7 @@
 package com.example.myapplication.di
 
-import com.example.myapplication.AppSchedulers
 import com.example.myapplication.BuildConfig
+import com.example.myapplication.ExecutionSchedulers
 import com.example.myapplication.data.api.GithubService
 import com.google.gson.Gson
 import dagger.Module
@@ -55,8 +55,8 @@ class ApiModule {
     @Provides
     @Singleton
     internal fun provideCallAdapterFactory(
-        appSchedulers: AppSchedulers
-    ): CallAdapter.Factory = RxJava2CallAdapterFactory.createWithScheduler(appSchedulers.io)
+        executionSchedulers: ExecutionSchedulers
+    ): CallAdapter.Factory = RxJava2CallAdapterFactory.createWithScheduler(executionSchedulers.io())
 
     @Provides
     @Singleton

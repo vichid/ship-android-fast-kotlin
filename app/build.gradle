@@ -73,6 +73,7 @@ android {
         abortOnError false
         ignoreWarnings true
     }
+
 }
 
 junitPlatform {
@@ -84,6 +85,7 @@ junitPlatform {
 }
 
 ext {
+    kotlin = '1.2.20'
     support = '27.0.2'
     constraint = '1.0.2'
     arch = '1.0.0'
@@ -105,7 +107,7 @@ ext {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:1.2.10"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin"
 
     ktlint 'com.github.shyiko:ktlint:0.11.1'
 
@@ -184,11 +186,11 @@ dependencies {
         exclude group: "org.junit.platform"
         exclude group: "org.jetbrains.kotlin"
     }
-    testImplementation "org.jetbrains.kotlin:kotlin-reflect:1.2.10"
-    testImplementation "org.junit.platform:junit-platform-engine:1.0.1"
 
     testImplementation "com.github.andrzejchm.RESTMock:android:$RESTMock"
+}
 
+dependencies {
     // Android Testing Support Library's runner and rules
     androidTestImplementation "com.android.support.test:runner:$runner"
     androidTestImplementation "com.android.support.test:rules:$runner"
