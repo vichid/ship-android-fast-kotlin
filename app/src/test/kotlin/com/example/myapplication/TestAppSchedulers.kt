@@ -1,12 +1,12 @@
 package com.example.myapplication
 
 import io.reactivex.Scheduler
-import io.reactivex.schedulers.TestScheduler
+import io.reactivex.schedulers.Schedulers
 
 class TestAppSchedulers : ExecutionSchedulers {
-    override fun io(): Scheduler = TestScheduler()
+    override fun io(): Scheduler = Schedulers.trampoline()
 
-    override fun computation(): Scheduler = TestScheduler()
+    override fun computation(): Scheduler = Schedulers.trampoline()
 
-    override fun ui(): Scheduler = TestScheduler()
+    override fun ui(): Scheduler = Schedulers.trampoline()
 }

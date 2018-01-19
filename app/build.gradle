@@ -11,7 +11,7 @@ configurations {
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.1"
+    buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "com.example.myapplication"
         minSdkVersion 16
@@ -169,6 +169,7 @@ ext {
     barista = '2.2.0'
     RESTMock = '0.2.2'
     spek = '1.1.5'
+    commons = '3.7'
 }
 
 dependencies {
@@ -188,6 +189,7 @@ dependencies {
     }
 
     testImplementation "com.github.andrzejchm.RESTMock:android:$RESTMock"
+    testImplementation "org.apache.commons:commons-lang3:$commons"
 }
 
 dependencies {

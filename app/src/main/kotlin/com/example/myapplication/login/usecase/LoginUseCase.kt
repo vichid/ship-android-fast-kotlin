@@ -17,8 +17,10 @@ constructor(
 ) : SingleUseCase<LoginResponse, LoginUseCase.Params>(appSchedulers) {
 
     override fun validate(params: Params?): Completable = params?.let {
-        Validators.validateEmail(params.email)
-        Validators.validateString(params.password)
+        Completable.concatArray(
+            Validators.validateEmail(params.email),
+            Validators.validateString(params.password)
+        )
     } ?: Completable.error(EmptyParams())
 
     override fun buildUseCaseObservable(params: Params?, fresh: Boolean):

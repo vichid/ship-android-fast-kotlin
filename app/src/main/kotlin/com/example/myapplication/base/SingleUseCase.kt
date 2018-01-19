@@ -12,7 +12,11 @@ constructor(private val executionSchedulers: ExecutionSchedulers) {
     protected abstract fun validate(params: Params? = null): Completable
 
     fun execute(params: Params? = null, fresh: Boolean = false): Single<R> = validate(params)
-        .andThen(buildUseCaseObservable(params, fresh)
-            .subscribeOn(executionSchedulers.io())
-            .observeOn(executionSchedulers.ui()))
+        .andThen(
+            Single.defer {
+                buildUseCaseObservable(params, fresh)
+                .subscribeOn(executionSchedulers.io())
+                .observeOn(executionSchedulers.ui())
+            }
+        )
 }
