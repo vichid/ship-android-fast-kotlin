@@ -1,5 +1,8 @@
 language: android
 
+jdk:
+  - oraclejdk8
+
 env:
   global:
     - ANDROID_API_LEVEL=27
@@ -10,15 +13,13 @@ env:
 android:
   components:
     - tools
+    - tools
     - platform-tools
     - build-tools-$ANDROID_BUILD_TOOLS_VERSION
     - android-$ANDROID_API_LEVEL
     - extra-android-m2repository
     - extra-google-m2repository
     - extra-android-support
-
-jdk:
-  - oraclejdk8
 
 before_install:
   - yes | sdkmanager "platforms;android-27"
@@ -29,3 +30,6 @@ notifications:
     - victor.hidalgo.lorenzo@gmail.com
     on_success: change
     on_failure: always
+
+script:
+- chmod +x ./gradlew
