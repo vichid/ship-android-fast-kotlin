@@ -1,6 +1,6 @@
 package com.example.myapplication.ghrepositorydetail
 
 interface RepositoryDetailContract {
-    interface Presenter
+    interface ViewModel
     interface View
 }

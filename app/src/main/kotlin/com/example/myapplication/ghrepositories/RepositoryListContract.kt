@@ -4,7 +4,7 @@ import com.example.myapplication.base.LoadingView
 import com.example.myapplication.base.RetryView
 
 interface RepositoryListContract {
-    interface Presenter {
+    interface ViewModel {
         fun searchRepositories()
         fun handleError(throwable: Throwable)
     }

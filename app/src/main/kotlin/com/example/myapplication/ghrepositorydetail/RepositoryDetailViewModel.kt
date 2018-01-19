@@ -5,4 +5,4 @@ import javax.inject.Inject
 
 class RepositoryDetailViewModel
 @Inject
-constructor() : BaseViewModel(), RepositoryDetailContract.Presenter
+constructor() : BaseViewModel(), RepositoryDetailContract.ViewModel

@@ -15,7 +15,7 @@ class RepositoryListViewModel
 @Inject
 constructor(
     private val searchRepositoriesUseCase: SearchRepositoriesUseCase
-) : BaseViewModel(), RepositoryListContract.Presenter {
+) : BaseViewModel(), RepositoryListContract.ViewModel {
 
     val snackbarMessage = SingleLiveEvent<Int>()
     val repository: MutableLiveData<List<GHRepository>> = MutableLiveData()

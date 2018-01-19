@@ -14,7 +14,7 @@ class LoginViewModel
 constructor(
     private val loginUseCase: LoginUseCase,
     private val userManager: UserManager
-) : BaseViewModel(), LoginContract.Presenter {
+) : BaseViewModel(), LoginContract.ViewModel {
 
     val loadingStatus = MutableLiveData<Boolean>()
     val loggedInStatus = MutableLiveData<Boolean>()

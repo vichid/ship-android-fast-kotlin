@@ -1,7 +1,7 @@
 package com.example.myapplication.login
 
 interface LoginContract {
-    interface Presenter {
+    interface ViewModel {
         fun login(email: String, password: String)
         fun handleError(throwable: Throwable)
     }
