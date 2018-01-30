@@ -6,16 +6,16 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
-            android:name=".App"
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true">
+        android:name=".App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true">
 
         <activity-alias
-                android:name=".Launcher"
-                android:targetActivity="com.example.myapplication.launch.LaunchActivity">
+            android:name=".Launcher"
+            android:targetActivity=".launch.LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -24,20 +24,25 @@
         </activity-alias>
 
         <activity
-                android:name="com.example.myapplication.login.LoginActivity"
-                android:theme="@style/AppTheme"
-                android:windowSoftInputMode="stateHidden"/>
+            android:name=".login.LoginActivity"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
-                android:name="com.example.myapplication.home.HomeActivity"
-                android:theme="@style/AppTheme"/>
+            android:name=".home.HomeActivity"
+            android:theme="@style/AppTheme"/>
         <activity
-                android:name="com.example.myapplication.ghrepositorydetail.RepositoryDetailActivity"
-                android:theme="@style/AppTheme"/>
+            android:name=".ghrepositorydetail.RepositoryDetailActivity"
+            android:theme="@style/AppTheme"
+            android:parentActivityName=".home.HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".home.HomeActivity"/>
+        </activity>
         <activity
-                android:name="com.example.myapplication.launch.LaunchActivity"
-                android:launchMode="singleTask"
-                android:theme="@android:style/Theme.NoDisplay"
-                android:windowSoftInputMode="stateHidden"/>
+            android:name=".launch.LaunchActivity"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.NoDisplay"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>

@@ -34,10 +34,8 @@ This is an on-going project of mine to try new approaches and libraries.
 
 ## TODO
 
-- [ ] Finish layout of Login screen.
-- [ ] Finish layout of Detail screen.
-- [ ] Add retry button.
 - [ ] Pull to refresh.
+- [ ] Data binding.
 - [ ] Preloading with Glide.
 - [ ] Modularize to allow instant apps.
 - [ ] Refactor usecases to forbid error propagation.

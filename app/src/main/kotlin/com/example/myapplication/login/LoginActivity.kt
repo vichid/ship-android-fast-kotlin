@@ -6,16 +6,14 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.text.TextUtils
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import com.example.myapplication.R
 import com.example.myapplication.base.BaseActivity
+import com.example.myapplication.util.Status
 import com.example.myapplication.util.ext.isVisible
-import com.example.myapplication.util.ext.setupSnackbar
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.view_progress.*
 import javax.inject.Inject
 
 class LoginActivity : BaseActivity(), LoginContract.View {
@@ -34,120 +32,53 @@ class LoginActivity : BaseActivity(), LoginContract.View {
             .get(LoginViewModel::class.java)
 
         observeLoadingStatus()
-        observeLoggedInStatus()
 
-        clLogin.setupSnackbar(
-            this@LoginActivity,
-            loginViewModel.snackbarMessage,
-            Snackbar.LENGTH_LONG
-        )
-
-        // Set up the login form.
         etPassword.setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
-            if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                attemptLogin()
-                return@OnEditorActionListener true
-            }
-            false
+            return@OnEditorActionListener if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
+                performLogin()
+                true
+            } else false
         })
 
-        btEmailSignInButton.setOnClickListener { attemptLogin() }
-    }
-
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
-    private fun attemptLogin() {
-
-        // Reset errors.
-        etEmail.error = null
-        etPassword.error = null
-
-        // Store values at the time of the login attempt.
-        val emailStr = etEmail.text.toString()
-        val passwordStr = etPassword.text.toString()
-
-        var cancel = false
-        var focusView: View? = null
-
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(passwordStr) && !isPasswordValid(passwordStr)) {
-            etPassword.error = getString(R.string.error_invalid_password)
-            focusView = etPassword
-            cancel = true
-        }
-
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(emailStr)) {
-            etEmail.error = getString(R.string.error_field_required)
-            focusView = etEmail
-            cancel = true
-        } else if (!isEmailValid(emailStr)) {
-            etEmail.error = getString(R.string.error_invalid_email)
-            focusView = etEmail
-            cancel = true
-        }
-
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView?.requestFocus()
-        } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            showProgress(true)
-            loginViewModel.login(emailStr, passwordStr)
+        btEmailSignInButton.setOnClickListener {
+            performLogin()
         }
     }
 
-    private fun isEmailValid(email: String): Boolean = email.contains("@")
+    private fun performLogin() {
+        loginViewModel.email.value = etEmail.text.toString()
+        loginViewModel.password.value = etPassword.text.toString()
+        loginViewModel.login()
+    }
 
-    private fun isPasswordValid(password: String): Boolean = password.length > 4
-
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    private fun showProgress(show: Boolean) {
-        val shortAnimTime = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
-
-        svLoginForm.apply {
-            isVisible = show
-            animate()
-                .setDuration(shortAnimTime)
-                .alpha((if (show) 0 else 1).toFloat())
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        isVisible = show
-                    }
-                })
-        }
-
+    override fun showLoading(state: Boolean) {
         progressBar.apply {
-            isVisible = show
+            isVisible = state
             animate()
-                .setDuration(shortAnimTime)
-                .alpha((if (show) 1 else 0).toFloat())
+                .setDuration(resources.getInteger(android.R.integer.config_shortAnimTime).toLong())
+                .alpha((if (state) 1 else 0).toFloat())
                 .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        isVisible = show
+                        isVisible = state
                     }
                 })
         }
     }
 
     private fun observeLoadingStatus() {
-        loginViewModel.loadingStatus.observe(this@LoginActivity,
-            Observer<Boolean> { showProgress(it ?: false) }
-        )
-    }
-
-    private fun observeLoggedInStatus() {
-        loginViewModel.loggedInStatus.observe(this@LoginActivity,
-            Observer<Boolean> {
-                if (it == true) {
-                    navigateToHomeActivity()
+        loginViewModel.status.observe(this@LoginActivity,
+            Observer<Status> {
+                when (it) {
+                    Status.Success -> {
+                        navigateToHomeActivity()
+                    }
+                    Status.Loading -> {
+                        showLoading(true)
+                    }
+                    Status.Error -> {
+                        showLoading(false)
+                        //TODO: Show errors
+                    }
                 }
             }
         )

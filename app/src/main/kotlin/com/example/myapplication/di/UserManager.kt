@@ -66,8 +66,8 @@ constructor(
     }
 
     companion object {
-        private val USER_NAME: String = "USER_NAME"
-        private val USER_EMAIL: String = "USER_EMAIL"
-        private val USER_TOKEN: String = "USER_TOKEN"
+        private const val USER_NAME: String = "USER_NAME"
+        private const val USER_EMAIL: String = "USER_EMAIL"
+        private const val USER_TOKEN: String = "USER_TOKEN"
     }
 }

@@ -14,10 +14,13 @@ import com.example.myapplication.ghrepositories.RepositoryListFragment
 import com.example.myapplication.util.ext.addFragment
 import dagger.Lazy
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.app_bar_main_fab.*
+import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.view_toolbar.*
 import javax.inject.Inject
 
-class HomeActivity : BaseUserActivity(), HomeContract.View, NavigationView.OnNavigationItemSelectedListener {
+class HomeActivity : BaseUserActivity(),
+    HomeContract.View,
+    NavigationView.OnNavigationItemSelectedListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -36,15 +39,12 @@ class HomeActivity : BaseUserActivity(), HomeContract.View, NavigationView.OnNav
 
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            logoutUser()
-        }
-
         ActionBarDrawerToggle(this, dlHome, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close).apply {
             dlHome.addDrawerListener(this@apply)
             syncState()
         }
-        nvMenu?.let {
+
+        nvMenu.let {
             it.setNavigationItemSelectedListener(this@HomeActivity)
             onNavigationItemSelected(it.menu.getItem(0))
         }
@@ -76,15 +76,8 @@ class HomeActivity : BaseUserActivity(), HomeContract.View, NavigationView.OnNav
                     addFragment(repositoryListFragment.get(), flContainer.id)
                 }
             }
-            R.id.nav_gallery -> {
-            }
-            R.id.nav_slideshow -> {
-            }
-            R.id.nav_manage -> {
-            }
-            R.id.nav_share -> {
-            }
-            R.id.nav_send -> {
+            R.id.nav_logout -> {
+                logoutUser()
             }
             else -> {
             }

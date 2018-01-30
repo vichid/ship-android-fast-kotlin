@@ -30,6 +30,6 @@ constructor(
 
     companion object {
         private val DUMMY_USER: User = User("foo", "foo@example.com")
-        private val DUMMY_TOKEN: String = "f136803ab9c241079ba0cc1b5d02ee77"
+        private const val DUMMY_TOKEN: String = "f136803ab9c241079ba0cc1b5d02ee77"
     }
 }

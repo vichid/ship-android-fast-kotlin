@@ -1,14 +1,14 @@
 package com.example.myapplication.ghrepositorydetail
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import com.example.myapplication.R
 import com.example.myapplication.base.BaseFragment
 import com.example.myapplication.di.ActivityScoped
-import com.example.myapplication.util.ext.isVisible
+import com.example.myapplication.ghrepositories.model.GHRepository
+import com.example.myapplication.ghrepositorydetail.RepositoryDetailActivity.Companion.REPO_TAG
 import kotlinx.android.synthetic.main.fragment_repository_detail.*
 import javax.inject.Inject
 
@@ -28,25 +28,16 @@ class RepositoryDetailFragment
         repositoryDetailViewModel = ViewModelProviders
             .of(this@RepositoryDetailFragment, viewModelFactory)
             .get(RepositoryDetailViewModel::class.java)
-    }
 
-    private fun showProgress(show: Boolean) {
-        val shortAnimTime = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
-
-        progressBar.apply {
-            isVisible = show
-            animate()
-                .setDuration(shortAnimTime)
-                .alpha((if (show) 1 else 0).toFloat())
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        isVisible = show
-                    }
-                })
-        }
-    }
-
-    companion object {
-        val REPO_TAG: String = "REPO_TAG"
+        arguments?.let {
+            if (it.containsKey(REPO_TAG)) {
+                (it[REPO_TAG] as GHRepository).let { repo ->
+                    (activity as? AppCompatActivity)?.supportActionBar?.title = repo.name
+                    tvDescription.text = repo.description
+                }
+            } else {
+                activity?.finish()
+            }
+        } ?: activity?.finish()
     }
 }

@@ -16,5 +16,5 @@ abstract class UserBindingModule {
 
     @ActivityScoped
     @ContributesAndroidInjector(modules = [RepositoryDetailModule::class])
-    internal abstract fun itemDetailActivity(): RepositoryDetailActivity
+    internal abstract fun repositoryDetailActivity(): RepositoryDetailActivity
 }

@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:tools="http://schemas.android.com/tools"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent">
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/coordinatorLayout">
 
-    <ProgressBar
-            android:id="@+id/progressBar"
-            style="@style/AppTheme.ProgressBar"
-            android:layout_centerInParent="true"
-            android:visibility="gone"/>
+    <include layout="@layout/view_progress"/>
+
+    <include layout="@layout/view_retry"/>
 
     <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvItem"
-            android:name="com.example.myapplication.ItemListFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".home.HomeActivity"
-            tools:listitem="@layout/row_repository"/>
+        android:id="@+id/rvItem"
+        android:name="com.example.myapplication.ItemListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/row_repository"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="parent"/>
 
-</android.support.design.widget.CoordinatorLayout>
+</android.support.constraint.ConstraintLayout>

@@ -1,10 +1,12 @@
 package com.example.myapplication.login
 
+import com.example.myapplication.base.LoadingView
+
 interface LoginContract {
     interface ViewModel {
-        fun login(email: String, password: String)
+        fun login()
         fun handleError(throwable: Throwable)
     }
 
-    interface View
+    interface View : LoadingView
 }

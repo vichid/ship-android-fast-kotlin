@@ -102,10 +102,10 @@ junitPlatform {
 }
 
 ext {
-    kotlin = '1.2.20'
+    kotlin = '1.2.21'
     support = '27.0.2'
     constraint = '1.0.2'
-    arch = '1.0.0'
+    arch = '1.1.0'
     retrofit = '2.3.0'
     okhttp = '3.6.0'
     dagger = '2.12'

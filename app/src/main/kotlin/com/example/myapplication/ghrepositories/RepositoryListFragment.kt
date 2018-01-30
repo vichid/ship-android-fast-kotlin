@@ -9,12 +9,12 @@ import android.support.v7.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.base.BaseFragment
 import com.example.myapplication.di.ActivityScoped
-import com.example.myapplication.home.HomeActivity
-import com.example.myapplication.home.navigateToDetailActivity
 import com.example.myapplication.util.EndlessRecyclerViewScrollListener
 import com.example.myapplication.util.Status
 import com.example.myapplication.util.ext.isVisible
 import kotlinx.android.synthetic.main.fragment_repository_list.*
+import kotlinx.android.synthetic.main.view_progress.*
+import kotlinx.android.synthetic.main.view_retry.*
 import javax.inject.Inject
 
 @ActivityScoped
@@ -37,7 +37,7 @@ class RepositoryListFragment
 
         rvItem.let { rv ->
             rv.adapter = RepositoryAdapter { item ->
-                (activity as? HomeActivity)?.navigateToDetailActivity(item)
+                navigateToDetailActivity(item)
             }
             LinearLayoutManager(context).let { ll ->
                 rv.layoutManager = ll
@@ -54,8 +54,14 @@ class RepositoryListFragment
 
         observeStatus()
         observeRepository()
+
         initializeQueryValues()
+
         repositoryListViewModel.searchRepositories()
+
+        btRetry.setOnClickListener {
+            repositoryListViewModel.searchRepositories()
+        }
     }
 
     private fun initializeQueryValues() {
@@ -88,13 +94,12 @@ class RepositoryListFragment
                     showRetry(true)
                     showLoading(false)
                 }
-                else -> {
-                }
             }
         })
     }
 
     override fun showRetry(state: Boolean) {
+        btRetry.isVisible = state
     }
 
     override fun showLoading(state: Boolean) {

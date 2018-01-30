@@ -1,12 +1,10 @@
 package com.example.myapplication.login
 
 import android.arch.lifecycle.MutableLiveData
-import android.support.annotation.StringRes
-import com.example.myapplication.R
 import com.example.myapplication.base.BaseViewModel
 import com.example.myapplication.di.UserManager
 import com.example.myapplication.login.usecase.LoginUseCase
-import com.example.myapplication.util.SingleLiveEvent
+import com.example.myapplication.util.Status
 import javax.inject.Inject
 
 class LoginViewModel
@@ -16,21 +14,27 @@ constructor(
     private val userManager: UserManager
 ) : BaseViewModel(), LoginContract.ViewModel {
 
-    val loadingStatus = MutableLiveData<Boolean>()
-    val loggedInStatus = MutableLiveData<Boolean>()
-    val snackbarMessage = SingleLiveEvent<Int>()
+    val status = MutableLiveData<Status>()
+    val email = MutableLiveData<String>()
+    val password = MutableLiveData<String>()
 
-    override fun login(email: String, password: String) {
+    override fun login() {
+        val paramsSnapshot = LoginUseCase.Params(
+            email.value.orEmpty(),
+            password.value.orEmpty()
+        )
         disposables.add(
-            loginUseCase.execute(LoginUseCase.Params(email, password))
-                .doOnSubscribe { loadingStatus.value = true }
-                .doAfterTerminate { loadingStatus.value = false }
+            loginUseCase.execute(paramsSnapshot)
+                .doOnSubscribe {
+                    status.value = Status.Loading
+                }
                 .map { userManager.createUserSession(it) }
                 .subscribe(
                     {
-                        loggedInStatus.value = true
+                        status.value = Status.Success
                     },
                     {
+                        status.value = Status.Error
                         handleError(it)
                     }
                 )
@@ -38,11 +42,7 @@ constructor(
     }
 
     override fun handleError(throwable: Throwable) = when (throwable) {
-        is RuntimeException -> showSnackbarMessage(R.string.app_name)
-        else -> showSnackbarMessage(R.string.prompt_email)
-    }
-
-    private fun showSnackbarMessage(@StringRes message: Int) {
-        snackbarMessage.value = message
+        is RuntimeException -> {}
+        else -> {}
     }
 }
