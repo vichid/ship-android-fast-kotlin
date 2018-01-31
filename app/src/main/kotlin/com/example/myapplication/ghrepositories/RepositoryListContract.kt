@@ -5,7 +5,7 @@ import com.example.myapplication.base.RetryView
 
 interface RepositoryListContract {
     interface ViewModel {
-        fun searchRepositories()
+        fun searchRepositories(fresh: Boolean = false)
         fun handleError(throwable: Throwable)
     }
 

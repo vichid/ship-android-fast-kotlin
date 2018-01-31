@@ -10,15 +10,14 @@ import com.example.myapplication.util.ext.TransformationType
 import com.example.myapplication.util.ext.load
 import kotlinx.android.synthetic.main.row_repository.view.*
 
-class RepositoryViewHolder
-constructor(
+class RepositoryViewHolder(
     view: View,
     private val itemClick: (GHRepository) -> Unit
 ) : BaseViewHolder<GHRepository>(view) {
 
-    private val tvRepoTitle: TextView = view.tvRepoTitle
-    private val tvStars: TextView = view.tvStars
-    private val ivAvatar: ImageView = view.ivAvatar
+    val tvRepoTitle: TextView = view.tvRepoTitle
+    val tvStars: TextView = view.tvStars
+    val ivAvatar: ImageView = view.ivAvatar
 
     override fun onBind(item: GHRepository) {
         tvRepoTitle.text = item.name

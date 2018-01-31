@@ -24,12 +24,14 @@ fun ImageView.load(url: String?, transformationType: TransformationType) {
 
 @SuppressLint("CheckResult")
 @JvmName("privateLoad")
-private fun load(view: ImageView,
+private fun load(
+    view: ImageView,
     url: String?,
-    transformationType: TransformationType = TransformationType.NOTHING) {
+    transformationType: TransformationType = TransformationType.NOTHING
+) {
     val glideRequest: GlideRequest<Drawable> = GlideApp.with(view.context)
         .load(url)
-        .transition(DrawableTransitionOptions.withCrossFade(200))
+        .transition(DrawableTransitionOptions.withCrossFade())
         .centerCrop()
         .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
     if (transformationType != TransformationType.NOTHING) {
@@ -47,7 +49,6 @@ enum class TransformationType {
     CIRCLE,
     ROUND,
     NOTHING;
-
     fun getTransformation(): Transformation<Bitmap> = when (this) {
         CIRCLE -> CircleCrop()
         ROUND -> RoundedCorners(20)

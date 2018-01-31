@@ -11,15 +11,21 @@
 
     <include layout="@layout/view_retry"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvItem"
-        android:name="com.example.myapplication.ItemListFragment"
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/row_repository"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="parent"/>
+        app:layout_constraintBottom_toTopOf="parent">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvItem"
+            android:name="com.example.myapplication.ItemListFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/row_repository"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </android.support.constraint.ConstraintLayout>

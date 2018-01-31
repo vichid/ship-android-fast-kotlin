@@ -43,7 +43,6 @@ class StoreModule {
                 TimeUnit.HOURS
             ))
             .parser(GsonParserFactory.createSourceParser(gson, object : TypeToken<List<GHRepository>>() {}.type))
-            .networkBeforeStale()
             .open()
 
     @Provides
@@ -63,6 +62,5 @@ class StoreModule {
                 TimeUnit.HOURS
             ))
             .parser(GsonParserFactory.createSourceParser(gson, GHSearchResponse::class.java))
-            .networkBeforeStale()
             .open()
 }

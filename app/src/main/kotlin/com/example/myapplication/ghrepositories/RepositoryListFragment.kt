@@ -6,15 +6,20 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader
+import com.bumptech.glide.util.ViewPreloadSizeProvider
 import com.example.myapplication.R
 import com.example.myapplication.base.BaseFragment
 import com.example.myapplication.di.ActivityScoped
+import com.example.myapplication.ghrepositories.model.GHRepository
 import com.example.myapplication.util.EndlessRecyclerViewScrollListener
+import com.example.myapplication.util.GlideApp
 import com.example.myapplication.util.Status
 import com.example.myapplication.util.ext.isVisible
 import kotlinx.android.synthetic.main.fragment_repository_list.*
 import kotlinx.android.synthetic.main.view_progress.*
 import kotlinx.android.synthetic.main.view_retry.*
+import org.jetbrains.anko.support.v4.ctx
 import javax.inject.Inject
 
 @ActivityScoped
@@ -35,22 +40,7 @@ class RepositoryListFragment
             .of(this@RepositoryListFragment, viewModelFactory)
             .get(RepositoryListViewModel::class.java)
 
-        rvItem.let { rv ->
-            rv.adapter = RepositoryAdapter { item ->
-                navigateToDetailActivity(item)
-            }
-            LinearLayoutManager(context).let { ll ->
-                rv.layoutManager = ll
-                rv.addOnScrollListener(object : EndlessRecyclerViewScrollListener(ll) {
-                    override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                        repositoryListViewModel.let {
-                            it.page.value = page
-                            it.searchRepositories()
-                        }
-                    }
-                })
-            }
-        }
+        setupRV()
 
         observeStatus()
         observeRepository()
@@ -60,7 +50,41 @@ class RepositoryListFragment
         repositoryListViewModel.searchRepositories()
 
         btRetry.setOnClickListener {
-            repositoryListViewModel.searchRepositories()
+            repositoryListViewModel.searchRepositories(fresh = true)
+        }
+    }
+
+    private fun setupRV() {
+        val viewPreloadSizeProvider = ViewPreloadSizeProvider<GHRepository>()
+        val adapter = RepositoryAdapter(ctx, viewPreloadSizeProvider) { item ->
+            navigateToDetailActivity(item)
+        }
+        val ll = LinearLayoutManager(ctx)
+
+        rvItem.adapter = adapter
+        rvItem.layoutManager = ll
+
+        rvItem.addOnScrollListener(object : EndlessRecyclerViewScrollListener(ll) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                repositoryListViewModel.let {
+                    it.page.value = page
+                    it.searchRepositories()
+                }
+            }
+        })
+
+        rvItem.addOnScrollListener(RecyclerViewPreloader(
+            GlideApp.with(ctx),
+            rvItem.adapter as RepositoryAdapter,
+            viewPreloadSizeProvider,
+            10
+        ))
+
+        swipeContainer.setOnRefreshListener {
+            repositoryListViewModel.page.value = 1
+            repositoryListViewModel.repository.value = emptyList()
+            repositoryListViewModel.searchRepositories(fresh = true)
+            swipeContainer.isRefreshing = false
         }
     }
 

@@ -34,9 +34,7 @@ This is an on-going project of mine to try new approaches and libraries.
 
 ## TODO
 
-- [ ] Pull to refresh.
 - [ ] Data binding.
-- [ ] Preloading with Glide.
 - [ ] Modularize to allow instant apps.
 - [ ] Refactor usecases to forbid error propagation.
 - [ ] Improve Unit Tests.

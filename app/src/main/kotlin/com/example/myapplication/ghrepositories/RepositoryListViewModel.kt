@@ -23,7 +23,7 @@ constructor(
     val sorting: MutableLiveData<String> = MutableLiveData()
     val order: MutableLiveData<String> = MutableLiveData()
 
-    override fun searchRepositories() {
+    override fun searchRepositories(fresh: Boolean) {
         val paramsSnapshot = SearchRepositoriesUseCase.Params(
             query.value.orEmpty(),
             page.value.orZero(),
@@ -31,7 +31,7 @@ constructor(
             order.value.orEmpty()
         )
         disposables.add(
-            searchRepositoriesUseCase.execute(paramsSnapshot)
+            searchRepositoriesUseCase.execute(paramsSnapshot, fresh)
                 .doOnSubscribe {
                     status.value = Status.Loading
                 }
