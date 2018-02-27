@@ -91,6 +91,15 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    dataBinding {
+        enabled = true
+    }
+}
+
+kapt {
+    useBuildCache = true
+    correctErrorTypes = true
 }
 
 junitPlatform {
@@ -102,14 +111,15 @@ junitPlatform {
 }
 
 ext {
-    kotlin = '1.2.21'
     support = '27.0.2'
+    ktlint = '0.11.1'
+    ktx = '0.1'
     constraint = '1.0.2'
     arch = '1.1.0'
     retrofit = '2.3.0'
     okhttp = '3.6.0'
     dagger = '2.12'
-    glide = '4.4.0'
+    glide = '4.6.1'
     leakcanary = '1.5.4'
     anko = '0.10.2'
     timber = '4.6.0'
@@ -124,9 +134,11 @@ ext {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_gradle"
 
-    ktlint 'com.github.shyiko:ktlint:0.11.1'
+    ktlint "com.github.shyiko:ktlint:$ktlint"
+
+    implementation "androidx.core:core-ktx:$ktx"
 
     implementation "com.android.support:appcompat-v7:$support"
     implementation "com.android.support:recyclerview-v7:$support"
@@ -148,7 +160,7 @@ dependencies {
 
     implementation "com.github.bumptech.glide:glide:$glide"
     implementation "com.github.bumptech.glide:okhttp3-integration:$glide"
-    implementation "com.github.bumptech.glide:recyclerview-integration:$glide"
+    implementation "com.github.bumptech.glide:annotations:$glide"
     kapt "com.github.bumptech.glide:compiler:$glide"
 
     implementation "com.google.dagger:dagger-android:$dagger"
@@ -242,11 +254,15 @@ dependencies {
     androidTestImplementation "com.google.code.findbugs:jsr305:3.0.1"
 }
 
+// Shot
+
 shot {
     appId = "com.example.myapplication"
     instrumentationTestTask = 'connectedMockDebugAndroidTest'
     packageTestApkTask = 'packageMockDebugAndroidTest'
 }
+
+// Ktlint
 
 task ktlint(type: JavaExec) {
     main = "com.github.shyiko.ktlint.Main"

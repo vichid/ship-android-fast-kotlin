@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ProgressBar
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/progressBar"
-    style="@style/AppTheme.ProgressBar"
-    android:visibility="gone"
-    android:layout_height="wrap_content"
-    android:layout_width="wrap_content"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    android:layout_marginStart="8dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:layout_marginEnd="8dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    android:layout_marginBottom="8dp"/>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="isLoading"
+            type="Boolean"/>
+    </data>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/AppTheme.ProgressBar"
+        android:visibility="@{safeUnbox(isLoading) ? View.VISIBLE : View.GONE}"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"/>
+</layout>

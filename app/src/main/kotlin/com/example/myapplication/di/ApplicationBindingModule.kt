@@ -1,7 +1,7 @@
 package com.example.myapplication.di
 
 import com.example.myapplication.login.LoginActivity
-import com.example.myapplication.login.LoginModule
+import com.example.myapplication.login.LoginModuleBinding
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -9,6 +9,6 @@ import dagger.android.ContributesAndroidInjector
 abstract class ApplicationBindingModule {
 
     @ActivityScoped
-    @ContributesAndroidInjector(modules = [(LoginModule::class)])
+    @ContributesAndroidInjector(modules = [LoginModuleBinding::class])
     internal abstract fun loginActivity(): LoginActivity
 }

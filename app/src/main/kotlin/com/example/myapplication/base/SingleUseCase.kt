@@ -3,20 +3,22 @@ package com.example.myapplication.base
 import com.example.myapplication.ExecutionSchedulers
 import io.reactivex.Completable
 import io.reactivex.Single
+import timber.log.Timber
 
 abstract class SingleUseCase<R, in Params>
 constructor(private val executionSchedulers: ExecutionSchedulers) {
 
-    protected abstract fun buildUseCaseObservable(params: Params? = null, fresh: Boolean = false): Single<R>
+    protected abstract fun buildUseCase(params: Params?, fresh: Boolean): Single<R>
 
-    protected abstract fun validate(params: Params? = null): Completable
+    protected abstract fun validate(params: Params?): Completable
 
     fun execute(params: Params? = null, fresh: Boolean = false): Single<R> = validate(params)
         .andThen(
             Single.defer {
-                buildUseCaseObservable(params, fresh)
-                .subscribeOn(executionSchedulers.io())
-                .observeOn(executionSchedulers.ui())
+                buildUseCase(params, fresh)
+                    .subscribeOn(executionSchedulers.io())
+                    .observeOn(executionSchedulers.ui())
             }
         )
+        .doOnError { Timber.tag("Single").d(it) }
 }

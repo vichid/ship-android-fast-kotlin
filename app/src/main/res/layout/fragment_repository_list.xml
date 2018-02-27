@@ -1,31 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/coordinatorLayout">
+    tools:context=".home.HomeActivity">
 
-    <include layout="@layout/view_progress"/>
+    <data>
 
-    <include layout="@layout/view_retry"/>
+        <import type="android.view.View"/>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/swipeContainer"
+        <variable
+            name="viewmodel"
+            type="com.example.myapplication.ghrepositories.RepositoryListViewModel"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="parent">
+        android:id="@+id/coordinatorLayout">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvItem"
-            android:name="com.example.myapplication.ItemListFragment"
+        <android.support.v4.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swipeContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/row_repository"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
-</android.support.constraint.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvRepository"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/view_holder_item_repository"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <include
+            layout="@layout/view_progress"
+            app:isLoading="@{viewmodel.isLoading}"/>
+
+        <Button
+            android:id="@+id/btRetry"
+            style="@style/AppTheme.Button"
+            android:visibility="@{safeUnbox(viewmodel.isFailing) ? View.VISIBLE : View.GONE}"
+            android:text="@string/retry"
+            android:onClick="@{() -> viewmodel.searchRepositories(true)}"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

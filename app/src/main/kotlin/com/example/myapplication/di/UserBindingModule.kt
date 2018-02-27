@@ -1,9 +1,9 @@
 package com.example.myapplication.di
 
 import com.example.myapplication.ghrepositorydetail.RepositoryDetailActivity
-import com.example.myapplication.ghrepositorydetail.RepositoryDetailModule
+import com.example.myapplication.ghrepositorydetail.RepositoryDetailModuleBinding
 import com.example.myapplication.home.HomeActivity
-import com.example.myapplication.home.HomeModule
+import com.example.myapplication.home.HomeModuleBinding
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -11,10 +11,10 @@ import dagger.android.ContributesAndroidInjector
 abstract class UserBindingModule {
 
     @ActivityScoped
-    @ContributesAndroidInjector(modules = [HomeModule::class])
+    @ContributesAndroidInjector(modules = [HomeModuleBinding::class])
     internal abstract fun homeActivity(): HomeActivity
 
     @ActivityScoped
-    @ContributesAndroidInjector(modules = [RepositoryDetailModule::class])
+    @ContributesAndroidInjector(modules = [RepositoryDetailModuleBinding::class])
     internal abstract fun repositoryDetailActivity(): RepositoryDetailActivity
 }

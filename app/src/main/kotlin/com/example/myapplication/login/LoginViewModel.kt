@@ -1,10 +1,14 @@
 package com.example.myapplication.login
 
 import android.arch.lifecycle.MutableLiveData
+import com.example.myapplication.R
 import com.example.myapplication.base.BaseViewModel
 import com.example.myapplication.di.UserManager
 import com.example.myapplication.login.usecase.LoginUseCase
-import com.example.myapplication.util.Status
+import com.example.myapplication.util.EmptyParams
+import com.example.myapplication.util.SingleLiveEvent
+import com.example.myapplication.util.ValidatorThrowable
+import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 
 class LoginViewModel
@@ -12,37 +16,68 @@ class LoginViewModel
 constructor(
     private val loginUseCase: LoginUseCase,
     private val userManager: UserManager
-) : BaseViewModel(), LoginContract.ViewModel {
+) : BaseViewModel() {
 
-    val status = MutableLiveData<Status>()
+    val isLoading = MutableLiveData<Boolean>()
+    val isLoginCompleted = MutableLiveData<Boolean>()
     val email = MutableLiveData<String>()
+    val emailError = MutableLiveData<Int>()
     val password = MutableLiveData<String>()
+    val passwordError = MutableLiveData<Int>()
+    val snackbarMessage = SingleLiveEvent<Int>()
 
-    override fun login() {
+    init {
+        email.value = "john.doe@gmail.com"
+        password.value = "123456"
+    }
+
+    fun login() {
+        emailError.value = null
+        passwordError.value = null
+
         val paramsSnapshot = LoginUseCase.Params(
             email.value.orEmpty(),
             password.value.orEmpty()
         )
-        disposables.add(
-            loginUseCase.execute(paramsSnapshot)
-                .doOnSubscribe {
-                    status.value = Status.Loading
-                }
-                .map { userManager.createUserSession(it) }
-                .subscribe(
-                    {
-                        status.value = Status.Success
-                    },
-                    {
-                        status.value = Status.Error
-                        handleError(it)
-                    }
-                )
-        )
+        loginUseCase.execute(paramsSnapshot)
+            .doOnSubscribe { isLoading.value = true }
+            .doAfterTerminate { isLoading.value = false }
+            .map { userManager.createUserSession(it) }
+            .subscribe(
+                { isLoginCompleted.value = true },
+                { handleError(it) }
+            )
+            .addTo(disposables)
     }
 
-    override fun handleError(throwable: Throwable) = when (throwable) {
-        is RuntimeException -> {}
-        else -> {}
+    private fun handleError(t: Throwable) = when (t) {
+        is ValidatorThrowable -> {
+            t.list.forEach {
+                when (it) {
+                    EmptyParams -> {
+                        emailError.value = R.string.error_field_required
+                        passwordError.value = R.string.error_field_required
+                    }
+                    LoginUseCase.EmailTooShortError -> {
+                        emailError.value = R.string.error_invalid_email_short
+                    }
+                    LoginUseCase.EmailPatternNotMatchingError -> {
+                        emailError.value = R.string.error_invalid_email
+                    }
+                    LoginUseCase.PasswordEmptyError -> {
+                        passwordError.value = R.string.error_field_required
+                    }
+                    LoginUseCase.PasswordTooShortError -> {
+                        passwordError.value = R.string.error_invalid_password_short
+                    }
+                    else -> {
+                        snackbarMessage.setValue(R.string.error_dummy)
+                    }
+                }
+            }
+        }
+        else -> {
+            snackbarMessage.setValue(R.string.error_dummy)
+        }
     }
 }

@@ -1,38 +1,47 @@
 package com.example.myapplication.ghrepositories
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.graphics.drawable.Drawable
-import android.view.View
-import com.bumptech.glide.ListPreloader
-import com.bumptech.glide.RequestBuilder
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.util.ViewPreloadSizeProvider
-import com.example.myapplication.R
-import com.example.myapplication.base.BaseAdapter
+import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import com.example.myapplication.BR
+import com.example.myapplication.base.BaseViewHolder
+import com.example.myapplication.base.Identifiable
+import com.example.myapplication.databinding.ViewHolderItemRepositoryBinding
 import com.example.myapplication.ghrepositories.model.GHRepository
-import com.example.myapplication.util.GlideApp
+import com.example.myapplication.util.AutoUpdatableAdapter
+import kotlin.properties.Delegates
 
-class RepositoryAdapter(
-    private val context: Context,
-    private val viewPreloadSizeProvider: ViewPreloadSizeProvider<GHRepository>,
-    private val itemClick: (GHRepository) -> Unit
-) : BaseAdapter<GHRepository, RepositoryViewHolder>(), ListPreloader.PreloadModelProvider<GHRepository> {
+class RepositoryAdapter(private val itemClick: (GHRepository) -> Unit)
+    : RecyclerView.Adapter<BaseViewHolder>(), AutoUpdatableAdapter {
 
-    override fun getItemViewId(): Int = R.layout.row_repository
-
-    override fun instantiateViewHolder(view: View): RepositoryViewHolder =
-        RepositoryViewHolder(view, itemClick)
-
-    override fun onBindViewHolder(holder: RepositoryViewHolder, position: Int) {
-        super.onBindViewHolder(holder, position)
-        viewPreloadSizeProvider.setView(holder.ivAvatar)
+    var sourceList: List<GHRepository> by Delegates.observable(ArrayList()) { _, old, new ->
+        autoNotify(old, new) { o, n -> (o as? Identifiable<*>)?.key() == (n as? Identifiable<*>)?.key() }
     }
 
-    override fun getPreloadItems(position: Int): List<GHRepository> = listOf(sourceList[position])
+    override fun getItemViewType(position: Int): Int = VIEWHOLDER_REPOSITORY
 
-    @SuppressLint("CheckResult")
-    override fun getPreloadRequestBuilder(item: GHRepository): RequestBuilder<Drawable> = GlideApp.with(context)
-        .load(item.ghPerson.avatarUrl)
-        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+    override fun getItemCount(): Int = sourceList.size
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder = when (viewType) {
+        VIEWHOLDER_REPOSITORY -> RepositoryViewHolder(
+            ViewHolderItemRepositoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        )
+        else -> throw RuntimeException("Not implemented")
+    }
+
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+        when (holder) {
+            is RepositoryViewHolder -> {
+                holder.binding.setVariable(BR.repository, sourceList[position])
+                holder.binding.root.setOnClickListener { itemClick.invoke(sourceList[position]) }
+            }
+        }
+        holder.binding.executePendingBindings()
+    }
+
+    class RepositoryViewHolder(binding: ViewHolderItemRepositoryBinding) : BaseViewHolder(binding)
+
+    companion object {
+        private const val VIEWHOLDER_REPOSITORY: Int = 0
+    }
 }

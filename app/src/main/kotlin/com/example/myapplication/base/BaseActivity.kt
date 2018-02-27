@@ -1,16 +1,19 @@
 package com.example.myapplication.base
 
 import android.os.Bundle
-import android.support.annotation.LayoutRes
 import dagger.android.support.DaggerAppCompatActivity
 
+/**
+ * Base dagger injectable activity class
+ */
 abstract class BaseActivity : DaggerAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(getLayoutId())
+        createViewModel()
+        createBinding()
     }
 
-    @LayoutRes
-    abstract fun getLayoutId(): Int
+    abstract fun createViewModel()
+    abstract fun createBinding()
 }

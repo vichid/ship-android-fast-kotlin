@@ -7,7 +7,7 @@ import com.example.myapplication.ExecutionSchedulers
 import dagger.Binds
 import dagger.Module
 
-@Module(includes = [DataModule::class, ViewModelModule::class])
+@Module(includes = [DataModule::class])
 abstract class ApplicationModule {
 
     @Binds

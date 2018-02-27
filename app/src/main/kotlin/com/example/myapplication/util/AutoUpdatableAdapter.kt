@@ -3,6 +3,9 @@ package com.example.myapplication.util
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 
+/**
+ * Updates adapter list with diff util on list change
+ */
 interface AutoUpdatableAdapter {
 
     fun <T> RecyclerView.Adapter<*>.autoNotify(old: List<T>, new: List<T>, compare: (T, T) -> Boolean) {

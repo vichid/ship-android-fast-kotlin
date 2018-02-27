@@ -1,11 +1,14 @@
 buildscript {
+    ext.gradle_plugin = '3.2.0-alpha01'
+    ext.kotlin_gradle = '1.2.21'
+
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.0-alpha09'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.21"
+        classpath "com.android.tools.build:gradle:$gradle_plugin"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_gradle"
         classpath "org.junit.platform:junit-platform-gradle-plugin:1.0.1"
         classpath "de.mannodermaus.gradle.plugins:android-junit5:1.0.12"
         classpath 'com.karumi:shot:1.0.0'

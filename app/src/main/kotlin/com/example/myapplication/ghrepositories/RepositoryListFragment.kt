@@ -6,127 +6,78 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader
-import com.bumptech.glide.util.ViewPreloadSizeProvider
-import com.example.myapplication.R
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.example.myapplication.base.BaseFragment
+import com.example.myapplication.databinding.FragmentRepositoryListBinding
 import com.example.myapplication.di.ActivityScoped
-import com.example.myapplication.ghrepositories.model.GHRepository
 import com.example.myapplication.util.EndlessRecyclerViewScrollListener
-import com.example.myapplication.util.GlideApp
-import com.example.myapplication.util.Status
-import com.example.myapplication.util.ext.isVisible
+import com.example.myapplication.util.ext.showShortSnackbar
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_repository_list.*
-import kotlinx.android.synthetic.main.view_progress.*
-import kotlinx.android.synthetic.main.view_retry.*
 import org.jetbrains.anko.support.v4.ctx
 import javax.inject.Inject
 
 @ActivityScoped
 class RepositoryListFragment
-@Inject constructor() : BaseFragment(), RepositoryListContract.View {
+@Inject constructor() : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var repositoryListViewModel: RepositoryListViewModel
+    private lateinit var viewModel: RepositoryListViewModel
+    private lateinit var binding: FragmentRepositoryListBinding
 
-    override fun getLayoutId(): Int = R.layout.fragment_repository_list
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        repositoryListViewModel = ViewModelProviders
+    override fun createViewModel() {
+        viewModel = ViewModelProviders
             .of(this@RepositoryListFragment, viewModelFactory)
             .get(RepositoryListViewModel::class.java)
+    }
 
-        setupRV()
-
-        observeStatus()
-        observeRepository()
-
-        initializeQueryValues()
-
-        repositoryListViewModel.searchRepositories()
-
-        btRetry.setOnClickListener {
-            repositoryListViewModel.searchRepositories(fresh = true)
+    override fun createBinding(inflater: LayoutInflater, container: ViewGroup?) {
+        binding = FragmentRepositoryListBinding.inflate(inflater, container, false)
+        binding.let {
+            it.viewmodel = viewModel
+            it.setLifecycleOwner(this)
         }
     }
 
-    private fun setupRV() {
-        val viewPreloadSizeProvider = ViewPreloadSizeProvider<GHRepository>()
-        val adapter = RepositoryAdapter(ctx, viewPreloadSizeProvider) { item ->
-            navigateToDetailActivity(item)
-        }
-        val ll = LinearLayoutManager(ctx)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        super.onCreateView(inflater, container, savedInstanceState)
+        return binding.root
+    }
 
-        rvItem.adapter = adapter
-        rvItem.layoutManager = ll
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        rvItem.addOnScrollListener(object : EndlessRecyclerViewScrollListener(ll) {
-            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                repositoryListViewModel.let {
-                    it.page.value = page
-                    it.searchRepositories()
-                }
-            }
+        viewModel.repository.observe(this@RepositoryListFragment, Observer {
+            (rvRepository.adapter as RepositoryAdapter).sourceList = it ?: emptyList()
+        })
+        viewModel.snackbarMessage.observe(this@RepositoryListFragment, Observer {
+            it?.let { clLogin.showShortSnackbar(getString(it)) }
         })
 
-        rvItem.addOnScrollListener(RecyclerViewPreloader(
-            GlideApp.with(ctx),
-            rvItem.adapter as RepositoryAdapter,
-            viewPreloadSizeProvider,
-            10
-        ))
+        LinearLayoutManager(ctx).let { ll ->
+            rvRepository.adapter = RepositoryAdapter { item ->
+                navigateToDetailActivity(item)
+            }
+            rvRepository.layoutManager = ll
+            rvRepository.addOnScrollListener(object : EndlessRecyclerViewScrollListener(ll) {
+                override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                    viewModel.let {
+                        it.page.value = page
+                        it.searchRepositories()
+                    }
+                }
+            })
+        }
 
         swipeContainer.setOnRefreshListener {
-            repositoryListViewModel.page.value = 1
-            repositoryListViewModel.repository.value = emptyList()
-            repositoryListViewModel.searchRepositories(fresh = true)
+            viewModel.page.value = 1
+            viewModel.repository.value = emptyList()
+            viewModel.searchRepositories(fresh = true)
             swipeContainer.isRefreshing = false
         }
-    }
-
-    private fun initializeQueryValues() {
-        repositoryListViewModel.repository.value ?: repositoryListViewModel.apply {
-            query.value = "android"
-            page.value = 1
-            sorting.value = "stars"
-            order.value = "desc"
-        }
-    }
-
-    private fun observeRepository() {
-        repositoryListViewModel.repository.observe(this@RepositoryListFragment, Observer {
-            (rvItem.adapter as? RepositoryAdapter)?.sourceList = it ?: emptyList()
-        })
-    }
-
-    private fun observeStatus() {
-        repositoryListViewModel.status.observe(this@RepositoryListFragment, Observer {
-            when (it) {
-                Status.Success -> {
-                    showRetry(false)
-                    showLoading(false)
-                }
-                Status.Loading -> {
-                    showRetry(false)
-                    showLoading(true)
-                }
-                Status.Error -> {
-                    showRetry(true)
-                    showLoading(false)
-                }
-            }
-        })
-    }
-
-    override fun showRetry(state: Boolean) {
-        btRetry.isVisible = state
-    }
-
-    override fun showLoading(state: Boolean) {
-        progressBar.isVisible = state
     }
 }

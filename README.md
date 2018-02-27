@@ -34,8 +34,11 @@ This is an on-going project of mine to try new approaches and libraries.
 
 ## TODO
 
-- [ ] Data binding.
+- [ ] Shot.
+- [ ] RESTMock.
+- [ ] (Data binding, Epoxy, litho, rxbinding)?.
 - [ ] Modularize to allow instant apps.
+- [ ] Show errors in login.
 - [ ] Refactor usecases to forbid error propagation.
 - [ ] Improve Unit Tests.
 - [ ] Acceptance Tests.

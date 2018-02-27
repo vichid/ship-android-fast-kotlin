@@ -1,29 +1,25 @@
 package com.example.myapplication.util.ext
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.Observer
 import android.support.design.widget.Snackbar
 import android.view.View
-import com.example.myapplication.util.SingleLiveEvent
 
 /**
  * Transforms static java function Snackbar.make() to an extension function on View.
  */
-fun View.showSnackbar(snackbarText: String, timeLength: Int) {
-    Snackbar.make(this, snackbarText, timeLength).show()
+fun View.showShortSnackbar(snackbarText: String) {
+    showSnackbar(snackbarText, Snackbar.LENGTH_SHORT)
 }
 
-/**
- * Triggers a snackbar message when the value contained by snackbarTaskMessageLiveEvent is modified.
- */
-fun View.setupSnackbar(
-    lifecycleOwner: LifecycleOwner,
-    snackbarMessageLiveEvent: SingleLiveEvent<Int>,
-    timeLength: Int
-) {
-    snackbarMessageLiveEvent.observe(lifecycleOwner, Observer {
-        it?.let { showSnackbar(context.getString(it), timeLength) }
-    })
+fun View.showLongSnackbar(snackbarText: String) {
+    showSnackbar(snackbarText, Snackbar.LENGTH_LONG)
+}
+
+fun View.showIndefSnackbar(snackbarText: String) {
+    showSnackbar(snackbarText, Snackbar.LENGTH_INDEFINITE)
+}
+
+fun View.showSnackbar(snackbarText: String, timeLength: Int) {
+    Snackbar.make(this, snackbarText, timeLength).show()
 }
 
 var View.isVisible: Boolean

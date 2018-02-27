@@ -14,12 +14,12 @@ import java.util.concurrent.atomic.AtomicBoolean
  *
  * This avoids a common problem with events: on configuration change (like rotation) an update
  * can be emitted if the observer is active. This LiveData only calls the observable if there's an
- * explicit call to setValue() or call().
+ * explicit call to set() or call().
  *
  *
  * Note that only one observer is going to be notified of changes.
  */
-class SingleLiveEvent<T> : MutableLiveData<T>() {
+open class SingleLiveEvent<T> : MutableLiveData<T>() {
 
     private val pending = AtomicBoolean(false)
 

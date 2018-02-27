@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_PARAMETER")
+
 package com.example.myapplication.util.crashlibrary
 
 class FakeCrashLibrary private constructor() {

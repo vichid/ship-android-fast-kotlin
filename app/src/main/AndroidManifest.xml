@@ -29,7 +29,8 @@
             android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".home.HomeActivity"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme"
+            android:launchMode="singleTop"/>
         <activity
             android:name=".ghrepositorydetail.RepositoryDetailActivity"
             android:theme="@style/AppTheme"
