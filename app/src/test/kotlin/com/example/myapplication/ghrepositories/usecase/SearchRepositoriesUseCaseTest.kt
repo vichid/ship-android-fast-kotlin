@@ -1,6 +1,5 @@
 package com.example.myapplication.ghrepositories.usecase
 
-import com.example.myapplication.TestAppSchedulers
 import com.example.myapplication.ghrepositories.model.GHSearchResponse
 import com.example.myapplication.ghrepositories.usecase.SearchRepositoriesUseCase.NegativeNumberError
 import com.example.myapplication.ghrepositories.usecase.SearchRepositoriesUseCase.OrderEmptyError
@@ -13,6 +12,7 @@ import com.example.myapplication.ghrepositories.usecase.SearchRepositoriesUseCas
 import com.example.myapplication.ghrepositories.usecase.SearchRepositoriesUseCase.SortEmptyError
 import com.example.myapplication.ghrepositories.usecase.SearchRepositoriesUseCase.SortTooLongError
 import com.example.myapplication.ghrepositories.usecase.SearchRepositoriesUseCase.SortTooShortError
+import com.example.myapplication.testutils.TestAppSchedulers
 import com.example.myapplication.util.EmptyParams
 import com.example.myapplication.util.ValidatorThrowable
 import com.nhaarman.mockito_kotlin.times

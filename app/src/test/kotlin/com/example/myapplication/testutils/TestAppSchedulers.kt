@@ -1,5 +1,6 @@
-package com.example.myapplication
+package com.example.myapplication.testutils
 
+import com.example.myapplication.ExecutionSchedulers
 import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
 

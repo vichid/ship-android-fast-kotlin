@@ -17,7 +17,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/coordinatorLayout">
+        android:id="@+id/coordinatorLayout"
+        app:snackbarMessage="@{viewmodel.getSnackbarMessage()}">
 
         <android.support.v4.widget.SwipeRefreshLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -27,7 +28,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="parent">
+            app:layout_constraintBottom_toTopOf="parent"
+            app:refreshing="@{safeUnbox(viewmodel.getIsLoading())}"
+            app:onRefreshListener="@{() -> viewmodel.refreshRepositories()}">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvRepository"
@@ -36,16 +39,12 @@
                 tools:listitem="@layout/view_holder_item_repository"/>
         </android.support.v4.widget.SwipeRefreshLayout>
 
-        <include
-            layout="@layout/view_progress"
-            app:isLoading="@{viewmodel.isLoading}"/>
-
         <Button
             android:id="@+id/btRetry"
             style="@style/AppTheme.Button"
-            android:visibility="@{safeUnbox(viewmodel.isFailing) ? View.VISIBLE : View.GONE}"
+            android:visibility="@{safeUnbox(viewmodel.getIsFailing()) ? View.VISIBLE : View.GONE}"
             android:text="@string/retry"
-            android:onClick="@{() -> viewmodel.searchRepositories(true)}"
+            android:onClick="@{() -> viewmodel.refreshRepositories()}"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             app:layout_constraintTop_toTopOf="parent"

@@ -13,8 +13,6 @@ import com.example.myapplication.base.BaseFragment
 import com.example.myapplication.databinding.FragmentRepositoryListBinding
 import com.example.myapplication.di.ActivityScoped
 import com.example.myapplication.util.EndlessRecyclerViewScrollListener
-import com.example.myapplication.util.ext.showShortSnackbar
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_repository_list.*
 import org.jetbrains.anko.support.v4.ctx
 import javax.inject.Inject
@@ -48,14 +46,11 @@ class RepositoryListFragment
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        viewModel.repository.observe(this@RepositoryListFragment, Observer {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.start()
+        viewModel.getRepository().observe(this@RepositoryListFragment, Observer {
             (rvRepository.adapter as RepositoryAdapter).sourceList = it ?: emptyList()
-        })
-        viewModel.snackbarMessage.observe(this@RepositoryListFragment, Observer {
-            it?.let { clLogin.showShortSnackbar(getString(it)) }
         })
 
         LinearLayoutManager(ctx).let { ll ->
@@ -65,19 +60,9 @@ class RepositoryListFragment
             rvRepository.layoutManager = ll
             rvRepository.addOnScrollListener(object : EndlessRecyclerViewScrollListener(ll) {
                 override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                    viewModel.let {
-                        it.page.value = page
-                        it.searchRepositories()
-                    }
+                    viewModel.searchNextPage(page)
                 }
             })
-        }
-
-        swipeContainer.setOnRefreshListener {
-            viewModel.page.value = 1
-            viewModel.repository.value = emptyList()
-            viewModel.searchRepositories(fresh = true)
-            swipeContainer.isRefreshing = false
         }
     }
 }

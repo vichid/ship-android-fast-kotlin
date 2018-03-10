@@ -1,6 +1,5 @@
 package com.example.myapplication.login.usecase
 
-import com.example.myapplication.TestAppSchedulers
 import com.example.myapplication.login.model.LoginResponse
 import com.example.myapplication.login.usecase.LoginUseCase.EmailEmptyError
 import com.example.myapplication.login.usecase.LoginUseCase.EmailPatternNotMatchingError
@@ -10,6 +9,7 @@ import com.example.myapplication.login.usecase.LoginUseCase.Params
 import com.example.myapplication.login.usecase.LoginUseCase.PasswordEmptyError
 import com.example.myapplication.login.usecase.LoginUseCase.PasswordTooLongError
 import com.example.myapplication.login.usecase.LoginUseCase.PasswordTooShortError
+import com.example.myapplication.testutils.TestAppSchedulers
 import com.example.myapplication.util.EmptyParams
 import com.example.myapplication.util.ValidatorThrowable
 import org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric

@@ -8,8 +8,6 @@ import android.os.Bundle
 import com.example.myapplication.R
 import com.example.myapplication.base.BaseActivity
 import com.example.myapplication.databinding.ActivityLoginBinding
-import com.example.myapplication.util.ext.showShortSnackbar
-import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
 
 class LoginActivity : BaseActivity() {
@@ -36,19 +34,8 @@ class LoginActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.apply {
-            emailError.observe(this@LoginActivity, Observer {
-                tilEmail.error = it?.let { getText(it) }
-            })
-            passwordError.observe(this@LoginActivity, Observer {
-                tilPassword.error = it?.let { getText(it) }
-            })
-            snackbarMessage.observe(this@LoginActivity, Observer {
-                it?.let { clLogin.showShortSnackbar(getString(it)) }
-            })
-            isLoginCompleted.observe(this@LoginActivity, Observer {
-                if (it == true) navigateToHomeActivity()
-            })
-        }
+        viewModel.getIsLoadingCompleted().observe(this@LoginActivity, Observer {
+            if (it == true) navigateToHomeActivity()
+        })
     }
 }

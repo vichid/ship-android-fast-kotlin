@@ -1,5 +1,6 @@
 package com.example.myapplication.login
 
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import com.example.myapplication.R
 import com.example.myapplication.base.BaseViewModel
@@ -18,18 +19,24 @@ constructor(
     private val userManager: UserManager
 ) : BaseViewModel() {
 
-    val isLoading = MutableLiveData<Boolean>()
-    val isLoginCompleted = MutableLiveData<Boolean>()
+    private val isLoading = MutableLiveData<Boolean>()
+    private val isLoginCompleted = MutableLiveData<Boolean>()
+    private val emailError = MutableLiveData<Int>()
+    private val passwordError = MutableLiveData<Int>()
     val email = MutableLiveData<String>()
-    val emailError = MutableLiveData<Int>()
     val password = MutableLiveData<String>()
-    val passwordError = MutableLiveData<Int>()
-    val snackbarMessage = SingleLiveEvent<Int>()
+    private val snackbarMessage = SingleLiveEvent<Int>()
 
     init {
         email.value = "john.doe@gmail.com"
         password.value = "123456"
     }
+
+    fun getIsLoading(): LiveData<Boolean> = isLoading
+    fun getIsLoadingCompleted(): LiveData<Boolean> = isLoginCompleted
+    fun getEmailError(): LiveData<Int> = emailError
+    fun getPasswordError(): LiveData<Int> = passwordError
+    fun getSnackbarMessage(): LiveData<Int> = snackbarMessage
 
     fun login() {
         emailError.value = null
